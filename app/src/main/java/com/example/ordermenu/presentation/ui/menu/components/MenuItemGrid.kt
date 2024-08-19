@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.ordermenu.data.fake.MenuItemFakes
-import com.example.ordermenu.domain.model.MenuItem
+import com.example.ordermenu.data.local.table.MenuItem
 import java.text.NumberFormat
 import java.util.Locale
 
