@@ -4,12 +4,13 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Upsert
 import com.example.ordermenu.data.local.table.MenuItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MenuItemDao {
-    @Insert
+    @Upsert
     suspend fun addMenuItem(menuItem: MenuItem)
 
     @Delete

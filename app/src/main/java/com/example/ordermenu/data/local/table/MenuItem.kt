@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.UUID
 
 @Entity(
     tableName = "menu_items",
@@ -19,11 +20,20 @@ import androidx.room.PrimaryKey
 )
 data class MenuItem(
     @PrimaryKey
-    val id: String,
-    val name: String,
-    val categoryId: String,
-    val allergens: String,
-    val price: Double,
-    val calories: Int,
-    val imageURL: String
+    val id: String = UUID.randomUUID().toString(),
+    val name: String = "",
+    val categoryId: String = "",
+    val allergens: String = "",
+    val price: Double = 0.0,
+    val calories: Int = 0,
+    val imageURL: String = ""
 )
+
+enum class MenuField {
+    NAME,
+    CATEGORY_ID,
+    ALLERGENS,
+    PRICE,
+    CALORIES,
+    IMAGE_URL
+}

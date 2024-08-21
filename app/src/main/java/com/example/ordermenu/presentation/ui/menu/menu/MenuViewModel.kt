@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ordermenu.data.local.table.MenuField
 import com.example.ordermenu.data.local.table.MenuItem
 import com.example.ordermenu.domain.repository.ImageRepository
 import com.example.ordermenu.domain.repository.MenuItemRepository
@@ -26,25 +27,41 @@ class MenuViewModel @Inject constructor(
     fun getAllMenuItems(): Flow<List<MenuItem>> =
         menuItemRepository.getAllMenuItems()
 
+    fun toggleDialog() {
+        _menuState.update {
+            it.copy(
+                showDialog = !it.showDialog
+            )
+        }
+    }
+    fun updateField(field: MenuField, newValue: String) {
+        _menuState.update {
+            it.copy(
+                menuItem = it.menuItem.toMutableMap().apply {
+                    this[field] = newValue
+                }
+            )
+        }
+    }
+
     fun uploadImage(uri: Uri?) {
         viewModelScope.launch {
             uri?.let {
                 val downloadUrl = imageRepository.uploadImage(uri)
                 downloadUrl?.let {
-                    _menuState.update {
-                        it.copy(
-                            menuItem = it.menuItem.copy(
-                                imageURL = downloadUrl
-                            )
-                        )
-                    }
+                    updateField(MenuField.IMAGE_URL, it)
                 }
             }
-            addMenuItem()
         }
     }
 
-    suspend fun addMenuItem() {
-        menuItemRepository.addMenuItem(_menuState.value.menuItem)
+    fun addMenuItem() = viewModelScope.launch{
+//        menuItemRepository.addMenuItem(_menuState.value.menuItem)
+//        _menuState.update {
+//            it.copy(
+//                menuItem = MenuItem()
+//            )
+//        }
+        toggleDialog()
     }
 }
