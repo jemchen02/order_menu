@@ -15,7 +15,7 @@ fun Dish.toDishEntry(): DishEntry = DishEntry(
 )
 fun DishEntry.toDish(): Resource<Dish> {
     if(name.isEmpty()) return Resource.Error("Name cannot be empty")
-    //if(categoryId.isEmpty()) return Resource.Error("You must select a category")
+    if(categoryId.isEmpty()) return Resource.Error("Failure selecting category")
     if(imageURL.isEmpty()) return Resource.Error("You must choose an image")
     try {
         val convertedPrice = price.toDouble()

@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirestoreDishRepository @Iginject constructor(
+class FirestoreDishRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : DishRepository {
     private val collectionRef = firestore.collection("dishes")
@@ -46,7 +46,6 @@ class FirestoreDishRepository @Iginject constructor(
 
     override suspend fun addDish(dish: Dish) {
         try {
-            Log.d("dishRepo", dish.toString())
             collectionRef.document(dish.id).set(dish).await()
         } catch (e: Exception) {
             e.printStackTrace()

@@ -36,7 +36,10 @@ fun DishGrid(
         modifier = modifier,
         columns = GridCells.Adaptive(300.dp)
     ) {
-        items(items = itemList) {
+        items(
+            items = itemList,
+            key = {item -> item.id}
+        ) {
             DishCard(it)
         }
     }

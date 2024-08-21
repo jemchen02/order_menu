@@ -3,8 +3,11 @@ package com.example.ordermenu.presentation.ui.menu
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ordermenu.domain.model.category.DishCategory
+import com.example.ordermenu.domain.model.category.toCategory
 import com.example.ordermenu.domain.model.dish.DishFields
 import com.example.ordermenu.domain.model.dish.toDish
+import com.example.ordermenu.domain.repository.CategoryRepository
 import com.example.ordermenu.domain.repository.DishRepository
 import com.example.ordermenu.domain.repository.ImageRepository
 import com.example.ordermenu.domain.util.Resource
@@ -18,27 +21,48 @@ import javax.inject.Inject
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     private val imageRepository: ImageRepository,
-    private val dishRepository: DishRepository
+    private val dishRepository: DishRepository,
+    private val categoryRepository: CategoryRepository
 ): ViewModel(){
     private val _menuState = MutableStateFlow(MenuState())
     val menuState = _menuState.asStateFlow()
     init {
         viewModelScope.launch {
-            getAllDishes()
+            getAllCategories()
+            getDishesInCategory()
         }
     }
-    private suspend fun getAllDishes() {
+    private suspend fun getDishesInCategory() {
+        _menuState.value.category?.let{ category->
+            _menuState.update {
+                it.copy(
+                    dishes = dishRepository.getDishesByCategoryId(category.id)
+                )
+            }
+        }
+    }
+    private suspend fun getAllCategories() {
         _menuState.update {
             it.copy(
-                dishes = dishRepository.getAllDishes()
+                categories = categoryRepository.getAllCategories()
             )
+        }
+        if(_menuState.value.categories.isNotEmpty()) {
+            selectCategory(_menuState.value.categories.first())
         }
     }
 
-    fun toggleDialog() {
+    fun toggleDishDialog() {
         _menuState.update {
             it.copy(
-                showDialog = !it.showDialog
+                showDishDialog = !it.showDishDialog
+            )
+        }
+    }
+    fun toggleCategoryDialog() {
+        _menuState.update {
+            it.copy(
+                showCategoryDialog = !it.showCategoryDialog
             )
         }
     }
@@ -56,7 +80,13 @@ class MenuViewModel @Inject constructor(
             )
         }
     }
-
+    fun updateNewCategory(newValue: String) {
+        _menuState.update {
+            it.copy(
+                newCategory = newValue
+            )
+        }
+    }
     fun uploadImage(uri: Uri?) {
         viewModelScope.launch {
             uri?.let {
@@ -69,17 +99,48 @@ class MenuViewModel @Inject constructor(
     }
 
     fun addDish() = viewModelScope.launch{
+        _menuState.update {
+            it.copy(
+                dish = it.dish.copy(
+                    categoryId = it.category?.id ?: ""
+                )
+            )
+        }
         when(val newDishResource = _menuState.value.dish.toDish()) {
             is Resource.Success -> newDishResource.data?.let {
                 dishRepository.addDish(it)
-                getAllDishes()
-                toggleDialog()
+                getDishesInCategory()
+                toggleDishDialog()
             }
             else -> _menuState.update {
                 it.copy(
-                    error = newDishResource.message
+                    dishError = newDishResource.message
                 )
             }
         }
+    }
+
+    fun addCategory() = viewModelScope.launch {
+        when(val newCategoryResource = _menuState.value.newCategory.toCategory()) {
+            is Resource.Success -> newCategoryResource.data?.let {
+                categoryRepository.addCategory(it)
+                getAllCategories()
+                toggleCategoryDialog()
+            }
+            else -> _menuState.update {
+                it.copy(
+                    categoryError = newCategoryResource.message
+                )
+            }
+        }
+    }
+
+    fun selectCategory(category: DishCategory) = viewModelScope.launch{
+        _menuState.update {
+            it.copy(
+                category = category
+            )
+        }
+        getDishesInCategory()
     }
 }
