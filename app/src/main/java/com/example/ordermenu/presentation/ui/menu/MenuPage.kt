@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu.menu
+package com.example.ordermenu.presentation.ui.menu
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -11,15 +11,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ordermenu.presentation.ui.components.OrderMenuAppBar
-import com.example.ordermenu.presentation.ui.menu.components.EditMenuItemDialog
-import com.example.ordermenu.presentation.ui.menu.components.MenuItemGrid
+import com.example.ordermenu.presentation.ui.menu.components.DishGrid
+import com.example.ordermenu.presentation.ui.menu.components.EditDishDialog
 
 @Composable
 fun MenuPage() {
     val viewModel = hiltViewModel<MenuViewModel>()
     val menuState = viewModel.menuState.collectAsState().value
     val showDialog = menuState.showDialog
-    val menuItems = viewModel.getAllMenuItems().collectAsState(emptyList()).value
+    val dishes = menuState.dishes
     Scaffold(
         topBar = {
             OrderMenuAppBar()
@@ -33,12 +33,12 @@ fun MenuPage() {
             }
         }
     ) { innerPadding ->
-        MenuItemGrid(
-            itemList = menuItems,
+        DishGrid(
+            itemList = dishes,
             modifier = Modifier.padding(innerPadding)
         )
         if (showDialog) {
-            EditMenuItemDialog(
+            EditDishDialog(
                 viewModel = viewModel
             )
         }

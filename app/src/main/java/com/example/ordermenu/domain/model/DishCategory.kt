@@ -1,3 +1,6 @@
 package com.example.ordermenu.domain.model
 
-data class DishCategory()
+data class DishCategory(
+    val id: String,
+    val name: String
+)

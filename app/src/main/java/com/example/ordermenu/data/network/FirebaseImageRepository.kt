@@ -1,4 +1,4 @@
-package com.example.ordermenu.network
+package com.example.ordermenu.data.network
 
 import android.net.Uri
 import android.util.Log

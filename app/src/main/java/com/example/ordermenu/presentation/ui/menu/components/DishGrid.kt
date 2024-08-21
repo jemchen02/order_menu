@@ -20,18 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.ordermenu.data.fake.MenuItemFakes
-import com.example.ordermenu.data.local.table.MenuItem
+import com.example.ordermenu.domain.model.dish.Dish
 import java.text.NumberFormat
 import java.util.Locale
 
 @Composable
-fun MenuItemGrid(
-    itemList: List<MenuItem>,
+fun DishGrid(
+    itemList: List<Dish>,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -39,15 +37,15 @@ fun MenuItemGrid(
         columns = GridCells.Adaptive(300.dp)
     ) {
         items(items = itemList) {
-            MenuItemCard(it)
+            DishCard(it)
         }
     }
 }
 
 
 @Composable
-fun MenuItemCard(menuItem: MenuItem, modifier: Modifier = Modifier) {
-    val formattedPrice = NumberFormat.getCurrencyInstance(Locale.US).format(menuItem.price)
+fun DishCard(dish: Dish, modifier: Modifier = Modifier) {
+    val formattedPrice = NumberFormat.getCurrencyInstance(Locale.US).format(dish.price)
     Card(
         modifier = modifier
             .fillMaxSize()
@@ -58,7 +56,7 @@ fun MenuItemCard(menuItem: MenuItem, modifier: Modifier = Modifier) {
         ){
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(menuItem.imageURL)
+                    .data(dish.imageURL)
                     .crossfade(true)
                     .build(),
                 contentScale = ContentScale.Crop,
@@ -69,7 +67,7 @@ fun MenuItemCard(menuItem: MenuItem, modifier: Modifier = Modifier) {
                     .padding(4.dp)
             )
             Text(
-                text = menuItem.name,
+                text = dish.name,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -82,7 +80,7 @@ fun MenuItemCard(menuItem: MenuItem, modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = "${menuItem.calories} calories",
+                    text = "${dish.calories} calories",
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -113,9 +111,4 @@ fun MenuItemCard(menuItem: MenuItem, modifier: Modifier = Modifier) {
             }
         }
     }
-}
-@Preview
-@Composable
-fun MenuItemGridPreview() {
-    MenuItemGrid(itemList = MenuItemFakes.menuItems)
 }

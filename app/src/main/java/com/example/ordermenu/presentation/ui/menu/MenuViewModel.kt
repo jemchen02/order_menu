@@ -1,15 +1,14 @@
-package com.example.ordermenu.presentation.ui.menu.menu
+package com.example.ordermenu.presentation.ui.menu
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ordermenu.data.local.table.MenuField
-import com.example.ordermenu.data.local.table.MenuItem
+import com.example.ordermenu.domain.model.dish.DishFields
+import com.example.ordermenu.domain.model.dish.toDish
+import com.example.ordermenu.domain.repository.DishRepository
 import com.example.ordermenu.domain.repository.ImageRepository
-import com.example.ordermenu.domain.repository.MenuItemRepository
+import com.example.ordermenu.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -19,13 +18,22 @@ import javax.inject.Inject
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     private val imageRepository: ImageRepository,
-    private val menuItemRepository: MenuItemRepository
+    private val dishRepository: DishRepository
 ): ViewModel(){
     private val _menuState = MutableStateFlow(MenuState())
     val menuState = _menuState.asStateFlow()
-
-    fun getAllMenuItems(): Flow<List<MenuItem>> =
-        menuItemRepository.getAllMenuItems()
+    init {
+        viewModelScope.launch {
+            getAllDishes()
+        }
+    }
+    private suspend fun getAllDishes() {
+        _menuState.update {
+            it.copy(
+                dishes = dishRepository.getAllDishes()
+            )
+        }
+    }
 
     fun toggleDialog() {
         _menuState.update {
@@ -34,11 +42,16 @@ class MenuViewModel @Inject constructor(
             )
         }
     }
-    fun updateField(field: MenuField, newValue: String) {
+    fun updateField(field: DishFields, newValue: String) {
         _menuState.update {
             it.copy(
-                menuItem = it.menuItem.toMutableMap().apply {
-                    this[field] = newValue
+                dish = when(field) {
+                    DishFields.NAME -> it.dish.copy(name = newValue)
+                    DishFields.PRICE -> it.dish.copy(price = newValue)
+                    DishFields.IMAGE_URL -> it.dish.copy(imageURL = newValue)
+                    DishFields.CALORIES -> it.dish.copy(calories = newValue)
+                    DishFields.CATEGORY_ID -> it.dish.copy(categoryId = newValue)
+                    DishFields.ALLERGENS -> it.dish.copy(allergens = newValue)
                 }
             )
         }
@@ -49,19 +62,24 @@ class MenuViewModel @Inject constructor(
             uri?.let {
                 val downloadUrl = imageRepository.uploadImage(uri)
                 downloadUrl?.let {
-                    updateField(MenuField.IMAGE_URL, it)
+                    updateField(DishFields.IMAGE_URL, it)
                 }
             }
         }
     }
 
-    fun addMenuItem() = viewModelScope.launch{
-//        menuItemRepository.addMenuItem(_menuState.value.menuItem)
-//        _menuState.update {
-//            it.copy(
-//                menuItem = MenuItem()
-//            )
-//        }
-        toggleDialog()
+    fun addDish() = viewModelScope.launch{
+        when(val newDishResource = _menuState.value.dish.toDish()) {
+            is Resource.Success -> newDishResource.data?.let {
+                dishRepository.addDish(it)
+                getAllDishes()
+                toggleDialog()
+            }
+            else -> _menuState.update {
+                it.copy(
+                    error = newDishResource.message
+                )
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ordermenu.domain.model
+package com.example.ordermenu.domain.model.dish
 
 import java.util.UUID
 
@@ -12,6 +12,7 @@ data class Dish(
     val imageURL: String = ""
 )
 data class DishEntry(
+    val id: String = "",
     val name: String = "",
     val categoryId: String = "",
     val allergens: String = "",
@@ -19,7 +20,6 @@ data class DishEntry(
     val calories: String = "",
     val imageURL: String = ""
 )
-fun 
 enum class DishFields {
     NAME,
     CATEGORY_ID,
