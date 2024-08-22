@@ -19,6 +19,9 @@ val Typography = Typography(
     ),
     titleLarge = DefaultTextStyle.copy(
         fontSize = 40.sp
+    ),
+    titleMedium = DefaultTextStyle.copy(
+        fontSize = 36.sp
     )
     /* Other default text styles to override
     titleLarge = TextStyle(

@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu
+package com.example.ordermenu.presentation.ui.menu.editor
 
 import android.net.Uri
 import com.example.ordermenu.domain.model.category.DishCategory

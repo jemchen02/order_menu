@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu.components.dialog
+package com.example.ordermenu.presentation.ui.menu.editor.components.dialog
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.ordermenu.domain.model.dish.DishFields
-import com.example.ordermenu.presentation.ui.menu.MenuViewModel
+import com.example.ordermenu.presentation.ui.menu.editor.MenuViewModel
 
 @Composable
 fun EditDishDialog(

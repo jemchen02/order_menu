@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu.components.dialog
+package com.example.ordermenu.presentation.ui.menu.editor.components.dialog
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.TextField

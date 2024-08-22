@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu
+package com.example.ordermenu.presentation.ui.menu.editor
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel

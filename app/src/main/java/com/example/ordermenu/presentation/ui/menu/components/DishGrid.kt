@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import java.util.Locale
 @Composable
 fun DishGrid(
     itemList: List<Dish>,
+    onDishTap: (Dish) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -40,19 +43,29 @@ fun DishGrid(
             items = itemList,
             key = {item -> item.id}
         ) {
-            DishCard(it)
+            DishCard(
+                dish = it,
+                onDishTap = onDishTap
+            )
         }
     }
 }
 
 
 @Composable
-fun DishCard(dish: Dish, modifier: Modifier = Modifier) {
+fun DishCard(
+    dish: Dish,
+    onDishTap: (Dish) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val formattedPrice = NumberFormat.getCurrencyInstance(Locale.US).format(dish.price)
     Card(
         modifier = modifier
             .fillMaxSize()
             .padding(4.dp)
+            .clickable {
+                onDishTap(dish)
+            }
     ) {
         Column (
             modifier = Modifier.padding(8.dp)
@@ -79,34 +92,9 @@ fun DishCard(dish: Dish, modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Text(
-                    text = "Quantity:",
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Text(
                     text = "${dish.calories} calories",
                     style = MaterialTheme.typography.bodyLarge,
                 )
-            }
-            Row (
-                modifier = Modifier.fillMaxWidth(),
-            ){
-                Text(
-                    text = "+",
-                    modifier = Modifier.clickable {}
-                        .padding(horizontal = 8.dp),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Text(
-                    text = "0",
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Text(
-                    text = "-",
-                    modifier = Modifier.clickable {}
-                        .padding(horizontal = 8.dp),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = formattedPrice,
                     style = MaterialTheme.typography.bodyLarge,

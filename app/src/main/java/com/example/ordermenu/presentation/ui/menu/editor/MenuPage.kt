@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu
+package com.example.ordermenu.presentation.ui.menu.editor
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ordermenu.presentation.ui.components.OrderMenuAppBar
-import com.example.ordermenu.presentation.ui.menu.components.CategoryNavigationDrawer
-import com.example.ordermenu.presentation.ui.menu.components.dialog.EditCategoryDialog
-import com.example.ordermenu.presentation.ui.menu.components.dialog.EditDishDialog
+import com.example.ordermenu.presentation.ui.menu.editor.components.CategoryNavigationDrawer
+import com.example.ordermenu.presentation.ui.menu.editor.components.dialog.EditCategoryDialog
+import com.example.ordermenu.presentation.ui.menu.editor.components.dialog.EditDishDialog
 
 @Composable
 fun MenuPage() {
