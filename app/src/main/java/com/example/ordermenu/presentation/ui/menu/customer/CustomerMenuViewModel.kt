@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.dish.Dish
+import com.example.ordermenu.domain.model.order.Order
 import com.example.ordermenu.domain.repository.CategoryRepository
 import com.example.ordermenu.domain.repository.DishRepository
+import com.example.ordermenu.domain.repository.OrderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CustomerMenuViewModel @Inject constructor(
     private val dishRepository: DishRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val orderRepository: OrderRepository
 ) : ViewModel(){
     private val _menuState = MutableStateFlow(CustomerMenuState())
     val menuState = _menuState.asStateFlow()
@@ -62,6 +65,18 @@ class CustomerMenuViewModel @Inject constructor(
             it.copy(
                 showOrder = !it.showOrder
             )
+        }
+    }
+
+    fun submitOrder() {
+        viewModelScope.launch {
+            orderRepository.addOrder(_menuState.value.order)
+            _menuState.update {
+                it.copy(
+                    order = Order()
+                )
+            }
+            toggleOrder()
         }
     }
 

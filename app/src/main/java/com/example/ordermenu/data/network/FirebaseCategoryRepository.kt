@@ -17,6 +17,7 @@ class FirebaseCategoryRepository @Inject constructor(
                 it.toObject(DishCategory::class.java)
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emptyList()
         }
     }

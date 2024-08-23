@@ -3,9 +3,11 @@ package com.example.ordermenu.di
 import com.example.ordermenu.data.network.FirebaseCategoryRepository
 import com.example.ordermenu.domain.repository.ImageRepository
 import com.example.ordermenu.data.network.FirebaseImageRepository
+import com.example.ordermenu.data.network.FirebaseOrderRepository
 import com.example.ordermenu.data.network.FirestoreDishRepository
 import com.example.ordermenu.domain.repository.CategoryRepository
 import com.example.ordermenu.domain.repository.DishRepository
+import com.example.ordermenu.domain.repository.OrderRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -35,4 +37,10 @@ object AppModule {
     fun provideCategoryRepository(
         firestore: FirebaseFirestore
     ): CategoryRepository = FirebaseCategoryRepository(firestore)
+
+    @Singleton
+    @Provides
+    fun provideOrderRepository(
+        firestore: FirebaseFirestore
+    ): OrderRepository = FirebaseOrderRepository(firestore)
 }

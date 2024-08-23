@@ -1,8 +1,10 @@
 package com.example.ordermenu.domain.model.order
 
 import com.example.ordermenu.domain.model.dish.Dish
+import java.util.UUID
 
 data class Order(
+    val id: String = UUID.randomUUID().toString(),
     val items: MutableMap<Dish, Int> = mutableMapOf(),
     var totalitems: Int = 0,
     var totalPrice: Double = 0.0,

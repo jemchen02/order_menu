@@ -45,7 +45,7 @@ fun OrderDialog(
             OrderForm(viewModel = viewModel)
         },
         confirmButton = {
-            TextButton(onClick = { }) {
+            TextButton(onClick = viewModel::submitOrder) {
                 Text(
                     "Place Order",
                     style = MaterialTheme.typography.bodyLarge
