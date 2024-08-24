@@ -76,6 +76,7 @@ class CustomerMenuViewModel @Inject constructor(
                     order = Order()
                 )
             }
+
             toggleOrder()
         }
     }

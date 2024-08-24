@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.ordermenu.presentation.ui.menu.customer.CustomerMenuPage
 import com.example.ordermenu.presentation.ui.menu.editor.MenuPage
+import com.example.ordermenu.presentation.ui.menu.staff.TicketsPage
 import com.example.ordermenu.presentation.ui.theme.OrderMenuTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +17,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             OrderMenuTheme {
-                CustomerMenuPage()
+                TicketsPage()
             }
         }
     }

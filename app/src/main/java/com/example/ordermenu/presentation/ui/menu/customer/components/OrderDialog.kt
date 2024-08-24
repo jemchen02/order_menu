@@ -28,6 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.example.ordermenu.domain.model.order.Order
+import com.example.ordermenu.domain.util.getPriceString
+import com.example.ordermenu.presentation.ui.components.LineDivider
 import com.example.ordermenu.presentation.ui.menu.customer.CustomerMenuViewModel
 import java.text.NumberFormat
 import java.util.Locale
@@ -65,7 +67,6 @@ fun OrderDialog(
 @Composable
 fun OrderForm(viewModel: CustomerMenuViewModel) {
     val order = viewModel.menuState.collectAsState().value.order
-    val formattedTotal = NumberFormat.getCurrencyInstance(Locale.US).format(order.totalPrice)
     LazyColumn {
         items(order.items.entries.toList(), key = {(dish, quantity) -> dish.id}) {
             (dish, quantity) ->
@@ -121,13 +122,7 @@ fun OrderForm(viewModel: CustomerMenuViewModel) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
-                HorizontalDivider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    thickness = 2.dp,
-                    color = Color.Gray
-                )
+                LineDivider()
                 Row (
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -137,7 +132,7 @@ fun OrderForm(viewModel: CustomerMenuViewModel) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Text(
-                        text = formattedTotal,
+                        text = getPriceString(order.totalPrice),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.category.toCategory
+import com.example.ordermenu.domain.model.dish.DishEntry
 import com.example.ordermenu.domain.model.dish.DishFields
 import com.example.ordermenu.domain.model.dish.toDish
 import com.example.ordermenu.domain.repository.CategoryRepository
@@ -111,6 +112,11 @@ class MenuViewModel @Inject constructor(
                 dishRepository.addDish(it)
                 getDishesInCategory()
                 toggleDishDialog()
+                _menuState.update { state->
+                    state.copy(
+                        dish = DishEntry()
+                    )
+                }
             }
             else -> _menuState.update {
                 it.copy(

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.ordermenu.domain.model.dish.Dish
+import com.example.ordermenu.domain.util.getPriceString
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -58,7 +59,6 @@ fun DishCard(
     onDishTap: (Dish) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val formattedPrice = NumberFormat.getCurrencyInstance(Locale.US).format(dish.price)
     Card(
         modifier = modifier
             .fillMaxSize()
@@ -96,7 +96,7 @@ fun DishCard(
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = formattedPrice,
+                    text = getPriceString(dish.price),
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
