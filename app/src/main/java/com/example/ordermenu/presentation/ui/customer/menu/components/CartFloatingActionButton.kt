@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu.customer.components
+package com.example.ordermenu.presentation.ui.customer.menu.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size

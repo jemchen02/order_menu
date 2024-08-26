@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu.customer
+package com.example.ordermenu.presentation.ui.customer.menu
 
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.dish.Dish

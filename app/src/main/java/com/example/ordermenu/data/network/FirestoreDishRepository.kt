@@ -46,14 +46,19 @@ class FirestoreDishRepository @Inject constructor(
 
     override suspend fun addDish(dish: Dish) {
         try {
-            val existingDish = collectionRef
+            val existingDishResult = collectionRef
                 .whereEqualTo("name", dish.name)
                 .get()
                 .await()
 
-            if (existingDish.isEmpty) {
+            if (existingDishResult.isEmpty) {
                 collectionRef.document(dish.id).set(dish).await()
             }
+            val updateDish = existingDishResult.documents[0]
+            if(updateDish.id == dish.id) {
+                collectionRef.document(dish.id).set(dish).await()
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu.editor.components.dialog
+package com.example.ordermenu.presentation.ui.staff.menu.components.dialog
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -8,12 +8,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -21,16 +26,33 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.ordermenu.domain.model.dish.DishFields
-import com.example.ordermenu.presentation.ui.menu.editor.MenuViewModel
+import com.example.ordermenu.presentation.ui.staff.menu.MenuViewModel
 
 @Composable
 fun EditDishDialog(
     viewModel: MenuViewModel
 ) {
+    val currDish = viewModel.menuState.collectAsState().value.dish
     AlertDialog(
         onDismissRequest = viewModel::toggleDishDialog,
         title = {
-            Text(text = "Add Dish")
+            if(currDish.id.isNotEmpty()) {
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(text = "Edit Dish")
+                    IconButton(onClick = viewModel::toggleDeleteDishDialog) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete dish"
+                        )
+                    }
+                }
+            } else {
+                Text("Add Dish")
+            }
         },
         text = {
             DishForm(viewModel = viewModel)
@@ -46,6 +68,7 @@ fun EditDishDialog(
             }
         }
     )
+
 }
 
 @Composable

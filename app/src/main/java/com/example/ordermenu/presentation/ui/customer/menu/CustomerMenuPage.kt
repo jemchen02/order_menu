@@ -1,17 +1,13 @@
-package com.example.ordermenu.presentation.ui.menu.customer
+package com.example.ordermenu.presentation.ui.customer.menu
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ordermenu.presentation.ui.components.OrderMenuAppBar
-import com.example.ordermenu.presentation.ui.menu.customer.components.CartFloatingActionButton
-import com.example.ordermenu.presentation.ui.menu.customer.components.CustomerCategoryDrawer
-import com.example.ordermenu.presentation.ui.menu.customer.components.OrderDialog
+import com.example.ordermenu.presentation.ui.customer.menu.components.CartFloatingActionButton
+import com.example.ordermenu.presentation.ui.customer.menu.components.CustomerCategoryDrawer
+import com.example.ordermenu.presentation.ui.customer.menu.components.OrderDialog
 
 @Composable
 fun CustomerMenuPage() {

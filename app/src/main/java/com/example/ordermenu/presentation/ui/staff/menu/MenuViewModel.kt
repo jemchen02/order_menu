@@ -1,13 +1,15 @@
-package com.example.ordermenu.presentation.ui.menu.editor
+package com.example.ordermenu.presentation.ui.staff.menu
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.category.toCategory
+import com.example.ordermenu.domain.model.dish.Dish
 import com.example.ordermenu.domain.model.dish.DishEntry
 import com.example.ordermenu.domain.model.dish.DishFields
 import com.example.ordermenu.domain.model.dish.toDish
+import com.example.ordermenu.domain.model.dish.toDishEntry
 import com.example.ordermenu.domain.repository.CategoryRepository
 import com.example.ordermenu.domain.repository.DishRepository
 import com.example.ordermenu.domain.repository.ImageRepository
@@ -53,20 +55,22 @@ class MenuViewModel @Inject constructor(
         }
     }
 
-    fun toggleDishDialog() {
+    fun toggleDishDialog() = toggleDialog(StaffDialogType.EditDish)
+    fun toggleDeleteDishDialog() = toggleDialog(StaffDialogType.DeleteDish)
+    fun toggleCategoryDialog() = toggleDialog(StaffDialogType.EditCategory)
+    fun toggleDeleteCategoryDialog() = toggleDialog(StaffDialogType.DeleteCategory)
+
+    fun toggleDialog(type: StaffDialogType) {
         _menuState.update {
-            it.copy(
-                showDishDialog = !it.showDishDialog
-            )
+            when(type) {
+                StaffDialogType.EditDish -> it.copy(showDishDialog = !it.showDishDialog)
+                StaffDialogType.DeleteDish -> it.copy(showDeleteDishDialog = !it.showDeleteDishDialog)
+                StaffDialogType.EditCategory -> it.copy(showCategoryDialog = !it.showCategoryDialog)
+                StaffDialogType.DeleteCategory -> it.copy(showDeleteCategoryDialog = !it.showDeleteCategoryDialog)
+            }
         }
     }
-    fun toggleCategoryDialog() {
-        _menuState.update {
-            it.copy(
-                showCategoryDialog = !it.showCategoryDialog
-            )
-        }
-    }
+
     fun updateField(field: DishFields, newValue: String) {
         _menuState.update {
             it.copy(
@@ -99,6 +103,15 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    fun startAddDish() {
+        _menuState.update {
+            it.copy(
+                dish = DishEntry()
+            )
+        }
+        toggleDishDialog()
+    }
+
     fun addDish() = viewModelScope.launch{
         _menuState.update {
             it.copy(
@@ -126,10 +139,39 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    fun selectDish(dish: Dish) {
+        _menuState.update {
+            it.copy(
+                dish = dish.toDishEntry()
+            )
+        }
+        toggleDishDialog()
+    }
+
+    fun deleteDish() = viewModelScope.launch {
+        val dish = _menuState.value.dish
+        dishRepository.deleteDish(dish.id)
+        getDishesInCategory()
+        toggleDeleteDishDialog()
+        toggleDishDialog()
+    }
+
     fun addCategory() = viewModelScope.launch {
         when(val newCategoryResource = _menuState.value.newCategory.toCategory()) {
             is Resource.Success -> newCategoryResource.data?.let {
-                categoryRepository.addCategory(it)
+                var newCategory = it
+                val editingCategory = _menuState.value.editingCategory
+                editingCategory?.let {
+                    newCategory = newCategory.copy(
+                        id = editingCategory.id
+                    )
+                }
+                _menuState.update { state->
+                    state.copy(
+                        newCategory = ""
+                    )
+                }
+                categoryRepository.addCategory(newCategory)
                 getAllCategories()
                 toggleCategoryDialog()
             }
@@ -148,5 +190,33 @@ class MenuViewModel @Inject constructor(
             )
         }
         getDishesInCategory()
+    }
+
+    fun selectEditCategory(category: DishCategory) {
+        toggleCategoryDialog()
+        _menuState.update {
+            it.copy(
+                editingCategory = category,
+                newCategory = category.name
+            )
+        }
+    }
+
+    fun selectDeleteCategory(category: DishCategory) {
+        toggleDeleteCategoryDialog()
+        _menuState.update {
+            it.copy(
+                editingCategory = category
+            )
+        }
+    }
+
+    fun deleteCategory() = viewModelScope.launch {
+        val category = _menuState.value.editingCategory
+        category?.let {
+            categoryRepository.deleteCategory(category.id)
+            getAllCategories()
+        }
+        toggleDeleteCategoryDialog()
     }
 }

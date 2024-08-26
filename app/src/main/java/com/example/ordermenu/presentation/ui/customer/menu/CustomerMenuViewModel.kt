@@ -1,6 +1,5 @@
-package com.example.ordermenu.presentation.ui.menu.customer
+package com.example.ordermenu.presentation.ui.customer.menu
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ordermenu.domain.model.category.DishCategory

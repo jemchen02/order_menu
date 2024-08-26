@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.menu.customer.components
+package com.example.ordermenu.presentation.ui.customer.menu.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,7 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
@@ -18,8 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ordermenu.presentation.ui.menu.components.DishGrid
-import com.example.ordermenu.presentation.ui.menu.customer.CustomerMenuViewModel
+import com.example.ordermenu.presentation.ui.components.DishGrid
+import com.example.ordermenu.presentation.ui.customer.menu.CustomerMenuViewModel
 
 @Composable
 fun CustomerCategoryDrawer(

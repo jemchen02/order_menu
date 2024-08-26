@@ -1,17 +1,15 @@
-package com.example.ordermenu.presentation.ui.menu.staff.components
+package com.example.ordermenu.presentation.ui.staff.tickets.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,11 +21,10 @@ import com.example.ordermenu.domain.model.order.OrderTicket
 import com.example.ordermenu.domain.util.getMinutesAgo
 import com.example.ordermenu.domain.util.getPriceString
 import com.example.ordermenu.presentation.ui.components.LineDivider
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 @Composable
 fun TicketList(
+    onTicketClick: (OrderTicket) -> Unit,
     contentPaddingValues: PaddingValues = PaddingValues(0.dp),
     tickets: List<OrderTicket>
 ) {
@@ -37,6 +34,7 @@ fun TicketList(
     ){
         items(items = tickets, key = {item -> item.id}) {
             TicketItem(
+                onTicketClick = onTicketClick,
                 ticket = it
             )
         }
@@ -45,10 +43,12 @@ fun TicketList(
 
 @Composable
 fun TicketItem(
+    onTicketClick: (OrderTicket) -> Unit,
     ticket: OrderTicket
 ) {
     Card (
         modifier = Modifier.padding(8.dp)
+            .clickable { onTicketClick(ticket) }
     ){
         Column (
             modifier = Modifier.padding(8.dp)
