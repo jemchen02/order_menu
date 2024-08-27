@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.ordermenu.presentation.ui.staff.auth.AuthPage
 import com.example.ordermenu.presentation.ui.staff.menu.MenuPage
 import com.example.ordermenu.presentation.ui.staff.tickets.TicketsPage
 
@@ -12,8 +13,15 @@ fun StaffPage() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = StaffScreens.Tickets.name
+        startDestination = StaffScreens.Auth.name
     ) {
+        composable(StaffScreens.Auth.name) {
+            AuthPage(
+                enterNextPage = {
+                    navController.navigate(StaffScreens.Tickets.name)
+                }
+            )
+        }
         composable(StaffScreens.Tickets.name) {
             TicketsPage(
                 editMenu = {

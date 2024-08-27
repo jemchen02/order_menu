@@ -1,4 +1,4 @@
-package com.example.ordermenu.data.network
+package com.example.ordermenu.data.network.repository
 
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.repository.CategoryRepository

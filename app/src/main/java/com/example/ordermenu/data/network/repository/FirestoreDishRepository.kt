@@ -1,6 +1,5 @@
-package com.example.ordermenu.data.network
+package com.example.ordermenu.data.network.repository
 
-import android.util.Log
 import com.example.ordermenu.domain.model.dish.Dish
 import com.example.ordermenu.domain.repository.DishRepository
 import com.google.firebase.firestore.FirebaseFirestore

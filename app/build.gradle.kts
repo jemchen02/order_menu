@@ -53,13 +53,27 @@ android {
 }
 
 dependencies {
+    //authentication
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+
+    //firebase
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
+
+    //navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
+    //dependency injection
     implementation("com.google.dagger:hilt-android:2.51.1")
-    implementation(libs.firebase.firestore)
     kapt("com.google.dagger:hilt-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
+    //room
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
@@ -74,7 +88,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,4 +1,4 @@
-package com.example.ordermenu.data.network
+package com.example.ordermenu.data.network.repository
 
 import com.example.ordermenu.domain.model.order.Order
 import com.example.ordermenu.domain.model.order.OrderTicket

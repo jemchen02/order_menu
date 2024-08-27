@@ -1,7 +1,6 @@
-package com.example.ordermenu.data.network
+package com.example.ordermenu.data.network.repository
 
 import android.net.Uri
-import android.util.Log
 import com.example.ordermenu.domain.repository.ImageRepository
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
