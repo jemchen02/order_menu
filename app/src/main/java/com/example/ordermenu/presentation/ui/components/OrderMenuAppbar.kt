@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrderMenuAppBar(
+    title: String = "Order Menu",
     canNavigateBack: Boolean = false,
     navigateUp: () -> Unit = {},
     actions: @Composable() (RowScope.() -> Unit) = {},
@@ -23,7 +24,7 @@ fun OrderMenuAppBar(
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = "Order Menu",
+                text = title,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onPrimary
             )

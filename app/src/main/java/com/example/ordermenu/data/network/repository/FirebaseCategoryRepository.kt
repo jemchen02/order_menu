@@ -10,6 +10,7 @@ class FirebaseCategoryRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ): CategoryRepository {
     private val collectionRef = firestore.collection("categories")
+
     override suspend fun getAllCategories(): List<DishCategory> {
         return try {
             val snapshot = collectionRef.get().await()
@@ -19,6 +20,21 @@ class FirebaseCategoryRepository @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()
+        }
+    }
+
+    override suspend fun getAllCategoriesByRestaurantId(id: String): List<DishCategory> {
+        try {
+            if(id.isEmpty()) {
+                return emptyList()
+            }
+            val snapshot = collectionRef.whereEqualTo("restaurantId", id).get().await()
+            return snapshot.documents.mapNotNull {
+                it.toObject(DishCategory::class.java)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return emptyList()
         }
     }
 

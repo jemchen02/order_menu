@@ -11,16 +11,29 @@ class FirebaseRestaurantRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ): RestaurantRepository {
     private val collectionRef = firestore.collection("restaurants")
-    override suspend fun getRestaurantById(id: String): Resource<Restaurant> {
-        return try {
-            val existingRestaurant = collectionRef.whereEqualTo("id", id).get().await()
+    override suspend fun getRestaurantByUserId(userId: String): Restaurant? {
+        try {
+            val existingRestaurant = collectionRef.whereEqualTo("userId", userId).get().await()
             if(existingRestaurant.isEmpty) {
-                collectionRef.document(id).set(Restaurant(id = id)).await()
+                val newRestaurant = Restaurant(userId = userId)
+                collectionRef.document(newRestaurant.id).set(newRestaurant).await()
+                return newRestaurant
             }
-            val document = collectionRef.document(id).get().await()
-            Resource.Success(document.toObject(Restaurant::class.java))
+            val document = existingRestaurant.documents.first()
+            return document.toObject(Restaurant::class.java)
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error getting restaurant")
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    override suspend fun getRestaurantById(id: String): Restaurant? {
+        return try {
+            val document = collectionRef.document(id).get().await()
+            document.toObject(Restaurant::class.java)
+        } catch(e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 

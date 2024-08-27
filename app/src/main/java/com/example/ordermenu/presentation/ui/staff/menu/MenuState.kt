@@ -4,8 +4,11 @@ import android.net.Uri
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.dish.Dish
 import com.example.ordermenu.domain.model.dish.DishEntry
+import com.example.ordermenu.domain.model.restaurant.Restaurant
 
 data class MenuState(
+    val restaurant: Restaurant? = null,
+
     val dish: DishEntry = DishEntry(),
     val dishes: List<Dish> = emptyList(),
     val categories: List<DishCategory> = emptyList(),

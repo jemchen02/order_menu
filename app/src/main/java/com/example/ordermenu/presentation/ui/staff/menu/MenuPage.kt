@@ -30,7 +30,9 @@ fun MenuPage(
     val menuState = viewModel.menuState.collectAsState().value
     Scaffold(
         topBar = {
-            OrderMenuAppBar() {
+            OrderMenuAppBar(
+                title = menuState.restaurant?.name ?: "Order Menu"
+            ) {
                 IconButton(onClick = viewTickets) {
                     Icon(
                         imageVector = Icons.Default.Notifications,

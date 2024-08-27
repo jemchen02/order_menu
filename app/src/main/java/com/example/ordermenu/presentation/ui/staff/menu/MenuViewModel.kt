@@ -3,6 +3,7 @@ package com.example.ordermenu.presentation.ui.staff.menu
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ordermenu.data.network.repository.FirebaseRestaurantRepository
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.category.toCategory
 import com.example.ordermenu.domain.model.dish.Dish
@@ -13,6 +14,8 @@ import com.example.ordermenu.domain.model.dish.toDishEntry
 import com.example.ordermenu.domain.repository.CategoryRepository
 import com.example.ordermenu.domain.repository.DishRepository
 import com.example.ordermenu.domain.repository.ImageRepository
+import com.example.ordermenu.domain.repository.PreferencesRepository
+import com.example.ordermenu.domain.repository.RestaurantRepository
 import com.example.ordermenu.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,14 +28,28 @@ import javax.inject.Inject
 class MenuViewModel @Inject constructor(
     private val imageRepository: ImageRepository,
     private val dishRepository: DishRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val preferencesRepository: PreferencesRepository,
+    private val restaurantRepository: RestaurantRepository
 ): ViewModel(){
     private val _menuState = MutableStateFlow(MenuState())
     val menuState = _menuState.asStateFlow()
     init {
         viewModelScope.launch {
-            getAllCategories()
-            getDishesInCategory()
+            preferencesRepository.restaurantId.collect { id ->
+                id?.let {
+                    val restaurant = restaurantRepository.getRestaurantById(id)
+                    if(restaurant != null) {
+                        _menuState.update {
+                            it.copy(
+                                restaurant = restaurant
+                            )
+                        }
+                        getAllCategories()
+                        getDishesInCategory()
+                    }
+                }
+            }
         }
     }
     private suspend fun getDishesInCategory() {
@@ -45,9 +62,10 @@ class MenuViewModel @Inject constructor(
         }
     }
     private suspend fun getAllCategories() {
+        val restaurantId = _menuState.value.restaurant?.id ?: ""
         _menuState.update {
             it.copy(
-                categories = categoryRepository.getAllCategories()
+                categories = categoryRepository.getAllCategoriesByRestaurantId(restaurantId)
             )
         }
         if(_menuState.value.categories.isNotEmpty()) {
@@ -157,7 +175,8 @@ class MenuViewModel @Inject constructor(
     }
 
     fun addCategory() = viewModelScope.launch {
-        when(val newCategoryResource = _menuState.value.newCategory.toCategory()) {
+        val restaurantId = _menuState.value.restaurant?.id ?: ""
+        when(val newCategoryResource = _menuState.value.newCategory.toCategory(restaurantId)) {
             is Resource.Success -> newCategoryResource.data?.let {
                 var newCategory = it
                 val editingCategory = _menuState.value.editingCategory
