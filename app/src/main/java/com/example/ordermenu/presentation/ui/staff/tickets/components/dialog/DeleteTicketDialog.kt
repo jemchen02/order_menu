@@ -15,7 +15,7 @@ fun DeleteTicketDialog(
     val ticket = viewModel.ticketsState.collectAsState().value.currTicket
     ticket?.let {
         AlertDialog(
-            onDismissRequest = viewModel::toggleDialog,
+            onDismissRequest = viewModel::toggleDeleteDialog,
             title = {
                 Text(text = "Delete Ticket")
             },
@@ -28,7 +28,7 @@ fun DeleteTicketDialog(
                 }
             },
             dismissButton = {
-                TextButton(onClick = viewModel::toggleDialog) {
+                TextButton(onClick = viewModel::toggleDeleteDialog) {
                     Text(text = "Cancel")
                 }
             }

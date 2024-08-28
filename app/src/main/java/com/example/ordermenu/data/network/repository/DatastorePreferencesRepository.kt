@@ -13,23 +13,26 @@ class DatastorePreferencesRepository @Inject constructor(
     private val datastore: DataStore<Preferences>
 ): PreferencesRepository {
     companion object {
+        val USER = stringPreferencesKey("user")
         val RESTAURANT = stringPreferencesKey("restaurant")
     }
 
-    override val restaurantId: Flow<String?> = datastore.data
-        .map { preferences ->
-            preferences[RESTAURANT]
-        }
-
-    override suspend fun saveId(id: String) {
-        datastore.edit { preferences ->
-            preferences[RESTAURANT] = id
+    override fun getId(type: Preferences.Key<String>): Flow<String?> {
+        return datastore.data.map {
+                preferences ->
+            preferences[type]
         }
     }
 
-    override suspend fun clearId() {
+    override suspend fun saveId(id: String, type: Preferences.Key<String>) {
         datastore.edit { preferences ->
-            preferences.remove(RESTAURANT)
+            preferences[type] = id
+        }
+    }
+
+    override suspend fun clearId(type: Preferences.Key<String>) {
+        datastore.edit { preferences ->
+            preferences.remove(type)
         }
     }
 }

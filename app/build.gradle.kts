@@ -53,6 +53,9 @@ android {
 }
 
 dependencies {
+    //qr codes
+    implementation("com.lightspark:compose-qr-code:1.0.1")
+
     //authentication
     implementation(libs.play.services.auth)
     implementation(libs.firebase.auth.ktx)

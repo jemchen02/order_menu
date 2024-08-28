@@ -3,6 +3,7 @@ package com.example.ordermenu.presentation.ui.staff.menu
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ordermenu.data.network.repository.DatastorePreferencesRepository
 import com.example.ordermenu.data.network.repository.FirebaseRestaurantRepository
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.category.toCategory
@@ -17,6 +18,7 @@ import com.example.ordermenu.domain.repository.ImageRepository
 import com.example.ordermenu.domain.repository.PreferencesRepository
 import com.example.ordermenu.domain.repository.RestaurantRepository
 import com.example.ordermenu.domain.util.Resource
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,15 +32,15 @@ class MenuViewModel @Inject constructor(
     private val dishRepository: DishRepository,
     private val categoryRepository: CategoryRepository,
     private val preferencesRepository: PreferencesRepository,
-    private val restaurantRepository: RestaurantRepository
+    private val restaurantRepository: RestaurantRepository,
 ): ViewModel(){
     private val _menuState = MutableStateFlow(MenuState())
     val menuState = _menuState.asStateFlow()
     init {
         viewModelScope.launch {
-            preferencesRepository.restaurantId.collect { id ->
+            preferencesRepository.getId(DatastorePreferencesRepository.USER).collect { id ->
                 id?.let {
-                    val restaurant = restaurantRepository.getRestaurantById(id)
+                    val restaurant = restaurantRepository.getRestaurantByUserId(id)
                     if(restaurant != null) {
                         _menuState.update {
                             it.copy(
