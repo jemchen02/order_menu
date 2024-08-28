@@ -1,9 +1,9 @@
-package com.example.ordermenu.data.network.repository
+package com.example.ordermenu.data.network.repository.restaurant
 
 import com.example.ordermenu.domain.model.order.Order
 import com.example.ordermenu.domain.model.order.OrderTicket
 import com.example.ordermenu.domain.model.order.toOrderTicket
-import com.example.ordermenu.domain.repository.OrderRepository
+import com.example.ordermenu.domain.repository.restaurant.OrderRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

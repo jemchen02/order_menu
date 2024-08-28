@@ -5,8 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.example.ordermenu.data.network.repository.DatastorePreferencesRepository
-import com.example.ordermenu.domain.repository.PreferencesRepository
+import com.example.ordermenu.data.network.repository.preferences.DatastorePreferencesRepository
+import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

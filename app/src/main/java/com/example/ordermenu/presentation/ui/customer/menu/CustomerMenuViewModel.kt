@@ -2,12 +2,15 @@ package com.example.ordermenu.presentation.ui.customer.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ordermenu.data.network.repository.preferences.DatastorePreferencesRepository
 import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.dish.Dish
 import com.example.ordermenu.domain.model.order.Order
-import com.example.ordermenu.domain.repository.CategoryRepository
-import com.example.ordermenu.domain.repository.DishRepository
-import com.example.ordermenu.domain.repository.OrderRepository
+import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
+import com.example.ordermenu.domain.repository.restaurant.CategoryRepository
+import com.example.ordermenu.domain.repository.restaurant.DishRepository
+import com.example.ordermenu.domain.repository.restaurant.OrderRepository
+import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,14 +22,28 @@ import javax.inject.Inject
 class CustomerMenuViewModel @Inject constructor(
     private val dishRepository: DishRepository,
     private val categoryRepository: CategoryRepository,
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val preferencesRepository: PreferencesRepository,
+    private val restaurantRepository: RestaurantRepository,
 ) : ViewModel(){
     private val _menuState = MutableStateFlow(CustomerMenuState())
     val menuState = _menuState.asStateFlow()
     init {
         viewModelScope.launch {
-            getAllCategories()
-            getDishesInCategory()
+            preferencesRepository.getId(DatastorePreferencesRepository.RESTAURANT).collect { id ->
+                id?.let {
+                    val restaurant = restaurantRepository.getRestaurantById(id)
+                    if(restaurant != null) {
+                        _menuState.update {
+                            it.copy(
+                                restaurant = restaurant
+                            )
+                        }
+                        getAllCategories()
+                        getDishesInCategory()
+                    }
+                }
+            }
         }
     }
 
@@ -91,9 +108,10 @@ class CustomerMenuViewModel @Inject constructor(
     }
 
     private suspend fun getAllCategories() {
+        val restaurantId = _menuState.value.restaurant?.id ?: ""
         _menuState.update {
             it.copy(
-                categories = categoryRepository.getAllCategories()
+                categories = categoryRepository.getAllCategoriesByRestaurantId(restaurantId)
             )
         }
         if(_menuState.value.categories.isNotEmpty()) {

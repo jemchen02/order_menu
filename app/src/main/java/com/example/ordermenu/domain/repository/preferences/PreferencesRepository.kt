@@ -1,7 +1,6 @@
-package com.example.ordermenu.domain.repository
+package com.example.ordermenu.domain.repository.preferences
 
 import androidx.datastore.preferences.core.Preferences
-import com.example.ordermenu.domain.model.restaurant.Restaurant
 import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {

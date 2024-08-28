@@ -1,4 +1,4 @@
-package com.example.ordermenu.domain.repository
+package com.example.ordermenu.domain.repository.restaurant
 
 import com.example.ordermenu.domain.model.category.DishCategory
 

@@ -1,5 +1,5 @@
 package com.example.ordermenu.presentation.ui.staff
 
 enum class StaffScreens {
-    Auth, Menu, Tickets
+    Menu, Tickets
 }

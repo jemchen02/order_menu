@@ -1,5 +1,6 @@
-package com.example.ordermenu.presentation.ui.staff.auth
+package com.example.ordermenu.presentation.ui.auth
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,8 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ordermenu.R
+import com.example.ordermenu.presentation.ClientActivity
+import com.example.ordermenu.presentation.StaffActivity
 import com.example.ordermenu.presentation.ui.components.OrderMenuAppBar
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -33,21 +36,28 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AuthPage(
-    enterNextPage: () -> Unit
+    viewModel: AuthViewModel,
+    scanCode: () -> Unit
 ) {
-    val viewModel = hiltViewModel<AuthViewModel>()
+    val context = LocalContext.current
+    val userId = viewModel.getUserId().collectAsState(null).value
+    userId?.let {
+        val intent = Intent(context, StaffActivity::class.java)
+        context.startActivity(intent)
+    }
     val restaurantId = viewModel.getRestaurantId().collectAsState(null).value
     restaurantId?.let {
-        enterNextPage()
+        val intent = Intent(context, ClientActivity::class.java)
+        context.startActivity(intent)
     }
-    val context = LocalContext.current
     Scaffold(
         topBar = {
             OrderMenuAppBar()
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(it),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -59,7 +69,10 @@ fun AuthPage(
                     }
                 )
             }) {
-                Text("Login")
+                Text("Staff: Login")
+            }
+            Button(onClick = scanCode) {
+                Text("Client: Scan Restaurant Code")
             }
         }
     }

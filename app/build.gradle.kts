@@ -55,6 +55,8 @@ android {
 dependencies {
     //qr codes
     implementation("com.lightspark:compose-qr-code:1.0.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.5.1")
 
     //authentication
     implementation(libs.play.services.auth)
@@ -72,6 +74,9 @@ dependencies {
 
     //dependency injection
     implementation("com.google.dagger:hilt-android:2.51.1")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
     kapt("com.google.dagger:hilt-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 

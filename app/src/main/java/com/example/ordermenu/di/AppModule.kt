@@ -1,26 +1,19 @@
 package com.example.ordermenu.di
 
-import android.content.Context
-import androidx.credentials.GetCredentialRequest
-import com.example.ordermenu.R
-import com.example.ordermenu.data.network.repository.FirebaseCategoryRepository
-import com.example.ordermenu.domain.repository.ImageRepository
-import com.example.ordermenu.data.network.repository.FirebaseImageRepository
-import com.example.ordermenu.data.network.repository.FirebaseOrderRepository
-import com.example.ordermenu.data.network.repository.FirebaseRestaurantRepository
-import com.example.ordermenu.data.network.repository.FirestoreDishRepository
-import com.example.ordermenu.data.network.service.FirebaseLoginService
-import com.example.ordermenu.domain.repository.CategoryRepository
-import com.example.ordermenu.domain.repository.DishRepository
-import com.example.ordermenu.domain.repository.OrderRepository
-import com.example.ordermenu.domain.repository.RestaurantRepository
-import com.example.ordermenu.domain.service.LoginService
-import com.google.firebase.auth.FirebaseAuth
+import com.example.ordermenu.data.network.repository.restaurant.FirebaseCategoryRepository
+import com.example.ordermenu.domain.repository.restaurant.ImageRepository
+import com.example.ordermenu.data.network.repository.restaurant.FirebaseImageRepository
+import com.example.ordermenu.data.network.repository.restaurant.FirebaseOrderRepository
+import com.example.ordermenu.data.network.repository.restaurant.FirebaseRestaurantRepository
+import com.example.ordermenu.data.network.repository.restaurant.FirestoreDishRepository
+import com.example.ordermenu.domain.repository.restaurant.CategoryRepository
+import com.example.ordermenu.domain.repository.restaurant.DishRepository
+import com.example.ordermenu.domain.repository.restaurant.OrderRepository
+import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 

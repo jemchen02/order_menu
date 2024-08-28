@@ -2,11 +2,11 @@ package com.example.ordermenu.presentation.ui.staff.tickets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ordermenu.data.network.repository.DatastorePreferencesRepository
+import com.example.ordermenu.data.network.repository.preferences.DatastorePreferencesRepository
 import com.example.ordermenu.domain.model.order.OrderTicket
-import com.example.ordermenu.domain.repository.OrderRepository
-import com.example.ordermenu.domain.repository.PreferencesRepository
-import com.example.ordermenu.domain.repository.RestaurantRepository
+import com.example.ordermenu.domain.repository.restaurant.OrderRepository
+import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
+import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

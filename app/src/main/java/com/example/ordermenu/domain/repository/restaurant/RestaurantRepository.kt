@@ -1,7 +1,6 @@
-package com.example.ordermenu.domain.repository
+package com.example.ordermenu.domain.repository.restaurant
 
 import com.example.ordermenu.domain.model.restaurant.Restaurant
-import com.example.ordermenu.domain.util.Resource
 
 interface RestaurantRepository {
     suspend fun getRestaurantByUserId(userId: String): Restaurant?

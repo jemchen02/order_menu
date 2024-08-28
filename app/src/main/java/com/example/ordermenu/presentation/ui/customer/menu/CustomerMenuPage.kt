@@ -15,7 +15,9 @@ fun CustomerMenuPage() {
     val menuState = viewModel.menuState.collectAsState().value
     Scaffold(
         topBar = {
-            OrderMenuAppBar()
+            OrderMenuAppBar(
+                title = menuState.restaurant?.name ?: "Order Menu"
+            )
         },
         floatingActionButton = {
             CartFloatingActionButton(

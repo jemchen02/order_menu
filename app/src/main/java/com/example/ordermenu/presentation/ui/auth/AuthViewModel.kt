@@ -1,10 +1,9 @@
-package com.example.ordermenu.presentation.ui.staff.auth
+package com.example.ordermenu.presentation.ui.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ordermenu.data.network.repository.DatastorePreferencesRepository
-import com.example.ordermenu.data.network.repository.FirebaseRestaurantRepository
-import com.example.ordermenu.domain.repository.PreferencesRepository
+import com.example.ordermenu.data.network.repository.preferences.DatastorePreferencesRepository
+import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import com.example.ordermenu.domain.service.LoginService
 import com.example.ordermenu.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +16,12 @@ class AuthViewModel @Inject constructor(
     private val loginService: LoginService,
     private val preferencesRepository: PreferencesRepository,
 ): ViewModel() {
-    fun getRestaurantId(): Flow<String?> = preferencesRepository.getId(DatastorePreferencesRepository.USER)
+    fun getUserId(): Flow<String?> = preferencesRepository.getId(
+        DatastorePreferencesRepository.USER)
+
+    fun getRestaurantId(): Flow<String?> = preferencesRepository.getId(
+        DatastorePreferencesRepository.RESTAURANT
+    )
 
     fun signIn(
         onError: (String) -> Unit
@@ -31,5 +35,9 @@ class AuthViewModel @Inject constructor(
             }
             is Resource.Error -> onError(loginResult.message ?: "Error signing in")
         }
+    }
+
+    fun setRestaurantId(restaurantId: String) = viewModelScope.launch {
+        preferencesRepository.saveId(restaurantId, DatastorePreferencesRepository.RESTAURANT)
     }
 }

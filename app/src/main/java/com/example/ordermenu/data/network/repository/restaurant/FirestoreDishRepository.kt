@@ -1,7 +1,7 @@
-package com.example.ordermenu.data.network.repository
+package com.example.ordermenu.data.network.repository.restaurant
 
 import com.example.ordermenu.domain.model.dish.Dish
-import com.example.ordermenu.domain.repository.DishRepository
+import com.example.ordermenu.domain.repository.restaurant.DishRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

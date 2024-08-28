@@ -1,10 +1,10 @@
-package com.example.ordermenu.data.network.repository
+package com.example.ordermenu.data.network.repository.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.ordermenu.domain.repository.PreferencesRepository
+import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
