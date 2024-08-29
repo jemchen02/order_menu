@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
         options.setCameraId(0)
         options.setBeepEnabled(false)
         options.setOrientationLocked(false)
+        options.setTimeout(20000)
         barCodeLauncher.launch(options)
     }
 

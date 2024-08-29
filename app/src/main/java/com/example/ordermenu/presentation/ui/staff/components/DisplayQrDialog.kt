@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.staff.tickets.components.dialog
+package com.example.ordermenu.presentation.ui.staff.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
@@ -8,14 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.ordermenu.presentation.ui.staff.StaffNavigationViewModel
 import com.example.ordermenu.presentation.ui.staff.tickets.TicketsViewModel
 import com.lightspark.composeqr.QrCodeView
 
 @Composable
 fun DisplayQrDialog(
-    viewModel: TicketsViewModel
+    viewModel: StaffNavigationViewModel
 ) {
-    val restaurant = viewModel.ticketsState.collectAsState().value.restaurant
+    val restaurant = viewModel.navState.collectAsState().value.restaurant
     restaurant?.let {
         AlertDialog(
             onDismissRequest = viewModel::toggleQrDialog,

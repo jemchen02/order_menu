@@ -84,17 +84,18 @@ class CustomerMenuViewModel @Inject constructor(
         }
     }
 
-    fun submitOrder() {
-        viewModelScope.launch {
-            orderRepository.addOrder(_menuState.value.order)
-            _menuState.update {
-                it.copy(
-                    order = Order()
-                )
-            }
-
-            toggleOrder()
+    fun submitOrder() = viewModelScope.launch {
+        orderRepository.addOrder(_menuState.value.order)
+        _menuState.update {
+            it.copy(
+                order = Order()
+            )
         }
+        toggleOrder()
+    }
+
+    fun exitRestaurant() = viewModelScope.launch {
+        preferencesRepository.clearId(DatastorePreferencesRepository.RESTAURANT)
     }
 
     private suspend fun getDishesInCategory() {
@@ -118,4 +119,5 @@ class CustomerMenuViewModel @Inject constructor(
             selectCategory(_menuState.value.categories.first())
         }
     }
+
 }

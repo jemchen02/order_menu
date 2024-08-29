@@ -38,13 +38,8 @@ class FirebaseLoginService @Inject constructor(
         }
     }
 
-    override fun signOut(): Resource<Unit> {
-        return try {
-            auth.signOut()
-            Resource.Success(Unit)
-        } catch(e: Exception) {
-            Resource.Error("Failed to sign out")
-        }
+    override fun signOut() {
+        auth.signOut()
     }
 
     override fun getCurrentUser(): FirebaseUser? {

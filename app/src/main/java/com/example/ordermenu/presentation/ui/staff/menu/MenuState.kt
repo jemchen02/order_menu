@@ -8,9 +8,11 @@ import com.example.ordermenu.domain.model.restaurant.Restaurant
 
 data class MenuState(
     val restaurant: Restaurant? = null,
+    val newRestaurantName: String = "",
 
     val dish: DishEntry = DishEntry(),
     val dishes: List<Dish> = emptyList(),
+
     val categories: List<DishCategory> = emptyList(),
     val category: DishCategory? = null,
     val newCategory: String = "",
@@ -22,10 +24,19 @@ data class MenuState(
     val showDeleteDishDialog: Boolean = false,
     val showCategoryDialog: Boolean = false,
     val showDeleteCategoryDialog: Boolean = false,
+    val showRestaurantDialog: Boolean = false,
 
     val dishError: String? = null,
     val categoryError: String? = null
 )
 enum class StaffDialogType {
-    EditDish, EditCategory, DeleteCategory, DeleteDish
+    EditDish, EditCategory, DeleteCategory, DeleteDish, EditRestaurant
+}
+enum class DishFields {
+    DISH_NAME,
+    CATEGORY_ID,
+    ALLERGENS,
+    PRICE,
+    CALORIES,
+    IMAGE_URL
 }

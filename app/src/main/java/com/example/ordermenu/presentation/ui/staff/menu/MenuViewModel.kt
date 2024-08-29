@@ -8,7 +8,6 @@ import com.example.ordermenu.domain.model.category.DishCategory
 import com.example.ordermenu.domain.model.category.toCategory
 import com.example.ordermenu.domain.model.dish.Dish
 import com.example.ordermenu.domain.model.dish.DishEntry
-import com.example.ordermenu.domain.model.dish.DishFields
 import com.example.ordermenu.domain.model.dish.toDish
 import com.example.ordermenu.domain.model.dish.toDishEntry
 import com.example.ordermenu.domain.repository.restaurant.CategoryRepository
@@ -16,6 +15,7 @@ import com.example.ordermenu.domain.repository.restaurant.DishRepository
 import com.example.ordermenu.domain.repository.restaurant.ImageRepository
 import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
+import com.example.ordermenu.domain.service.LoginService
 import com.example.ordermenu.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,13 +42,25 @@ class MenuViewModel @Inject constructor(
                     if(restaurant != null) {
                         _menuState.update {
                             it.copy(
-                                restaurant = restaurant
+                                restaurant = restaurant,
+                                newRestaurantName = restaurant.name
                             )
                         }
                         getAllCategories()
                         getDishesInCategory()
                     }
                 }
+            }
+        }
+    }
+    private suspend fun refreshRestaurant() {
+        val restaurantId = _menuState.value.restaurant?.id
+        restaurantId?.let {
+            val restaurant = restaurantRepository.getRestaurantById(restaurantId)
+            _menuState.update {
+                it.copy(
+                    restaurant = restaurant
+                )
             }
         }
     }
@@ -77,14 +89,16 @@ class MenuViewModel @Inject constructor(
     fun toggleDeleteDishDialog() = toggleDialog(StaffDialogType.DeleteDish)
     fun toggleCategoryDialog() = toggleDialog(StaffDialogType.EditCategory)
     fun toggleDeleteCategoryDialog() = toggleDialog(StaffDialogType.DeleteCategory)
+    fun toggleRestaurantDialog() = toggleDialog(StaffDialogType.EditRestaurant)
 
-    fun toggleDialog(type: StaffDialogType) {
+    private fun toggleDialog(type: StaffDialogType) {
         _menuState.update {
             when(type) {
                 StaffDialogType.EditDish -> it.copy(showDishDialog = !it.showDishDialog)
                 StaffDialogType.DeleteDish -> it.copy(showDeleteDishDialog = !it.showDeleteDishDialog)
                 StaffDialogType.EditCategory -> it.copy(showCategoryDialog = !it.showCategoryDialog)
                 StaffDialogType.DeleteCategory -> it.copy(showDeleteCategoryDialog = !it.showDeleteCategoryDialog)
+                StaffDialogType.EditRestaurant -> it.copy(showRestaurantDialog = !it.showRestaurantDialog)
             }
         }
     }
@@ -93,7 +107,7 @@ class MenuViewModel @Inject constructor(
         _menuState.update {
             it.copy(
                 dish = when(field) {
-                    DishFields.NAME -> it.dish.copy(name = newValue)
+                    DishFields.DISH_NAME -> it.dish.copy(name = newValue)
                     DishFields.PRICE -> it.dish.copy(price = newValue)
                     DishFields.IMAGE_URL -> it.dish.copy(imageURL = newValue)
                     DishFields.CALORIES -> it.dish.copy(calories = newValue)
@@ -107,6 +121,13 @@ class MenuViewModel @Inject constructor(
         _menuState.update {
             it.copy(
                 newCategory = newValue
+            )
+        }
+    }
+    fun updateRestaurantName(newName: String) {
+        _menuState.update {
+            it.copy(
+                newRestaurantName = newName
             )
         }
     }
@@ -237,5 +258,16 @@ class MenuViewModel @Inject constructor(
             getAllCategories()
         }
         toggleDeleteCategoryDialog()
+    }
+
+    fun updateRestaurant() = viewModelScope.launch {
+        val newRestaurant = _menuState.value.restaurant?.copy(
+            name = _menuState.value.newRestaurantName
+        )
+        newRestaurant?.let {
+            restaurantRepository.editRestaurant(newRestaurant)
+        }
+        refreshRestaurant()
+        toggleRestaurantDialog()
     }
 }

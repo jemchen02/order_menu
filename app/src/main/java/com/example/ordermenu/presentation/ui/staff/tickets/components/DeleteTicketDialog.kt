@@ -1,11 +1,10 @@
-package com.example.ordermenu.presentation.ui.staff.tickets.components.dialog
+package com.example.ordermenu.presentation.ui.staff.tickets.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import com.example.ordermenu.domain.model.order.OrderTicket
 import com.example.ordermenu.presentation.ui.staff.tickets.TicketsViewModel
 
 @Composable

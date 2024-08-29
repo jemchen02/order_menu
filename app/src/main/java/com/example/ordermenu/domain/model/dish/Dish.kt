@@ -20,11 +20,3 @@ data class DishEntry(
     val calories: String = "",
     val imageURL: String = ""
 )
-enum class DishFields {
-    NAME,
-    CATEGORY_ID,
-    ALLERGENS,
-    PRICE,
-    CALORIES,
-    IMAGE_URL
-}

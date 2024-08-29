@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.ordermenu.domain.model.dish.DishFields
+import com.example.ordermenu.presentation.ui.staff.menu.DishFields
 import com.example.ordermenu.presentation.ui.staff.menu.MenuViewModel
 
 @Composable
@@ -111,7 +111,7 @@ fun DishForm(viewModel: MenuViewModel) {
             DialogTextField(
                 value = currDish.name,
                 onValueChange = {
-                    viewModel.updateField(DishFields.NAME, it)
+                    viewModel.updateField(DishFields.DISH_NAME, it)
                 },
                 label = { Text("Name") }
             )
