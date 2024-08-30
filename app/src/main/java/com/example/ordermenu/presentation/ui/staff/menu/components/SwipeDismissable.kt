@@ -49,7 +49,7 @@ fun SwipeDismissable(
     }
     val color = when (dismissState.dismissDirection) {
         SwipeToDismissBoxValue.StartToEnd -> MaterialTheme.colorScheme.tertiary
-        SwipeToDismissBoxValue.EndToStart -> MaterialTheme.colorScheme.secondary
+        SwipeToDismissBoxValue.EndToStart -> MaterialTheme.colorScheme.error
         SwipeToDismissBoxValue.Settled -> Color.Transparent
     }
     SwipeToDismissBox(

@@ -11,6 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,16 +37,20 @@ class TicketsViewModel @Inject constructor(
                                 restaurant = restaurant
                             )
                         }
-                        getAllTickets()
                     }
                 }
             }
         }
     }
 
-    fun getAllTickets(): Flow<List<OrderTicket>> =
-        orderRepository.getAllOrders()
-
+    fun getAllTickets(): Flow<List<OrderTicket>> = flow {
+        val restaurantId = _ticketsState.value.restaurant?.id
+        if(restaurantId != null) {
+            emitAll(orderRepository.getAllOrdersByRestaurantId(restaurantId))
+        } else {
+            emit(emptyList())
+        }
+    }
     fun toggleDeleteDialog() {
         _ticketsState.update {
             it.copy(

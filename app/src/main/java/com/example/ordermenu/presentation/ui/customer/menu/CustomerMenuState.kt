@@ -7,9 +7,12 @@ import com.example.ordermenu.domain.model.restaurant.Restaurant
 
 data class CustomerMenuState(
     val restaurant: Restaurant? = null,
+
     val dishes: List<Dish> = emptyList(),
+
     val order: Order = Order(),
     val showOrder: Boolean = false,
+
     val categories: List<DishCategory> = emptyList(),
     val category: DishCategory? = null
 )

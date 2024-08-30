@@ -15,8 +15,8 @@ class FirebaseOrderRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ): OrderRepository {
     private val collectionRef = firestore.collection("orders")
-    override fun getAllOrders(): Flow<List<OrderTicket>> = callbackFlow {
-        val listenerRegistration = collectionRef.addSnapshotListener{snapshots, e->
+    override fun getAllOrdersByRestaurantId(restaurantId: String): Flow<List<OrderTicket>> = callbackFlow {
+        val listenerRegistration = collectionRef.whereEqualTo("restaurantId", restaurantId).addSnapshotListener{snapshots, e->
             if(e!= null) {
                 close(e)
                 return@addSnapshotListener

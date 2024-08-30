@@ -10,6 +10,10 @@ fun getMinutesAgo(timeStamp: Timestamp): String {
     val diff = now - timeStamp.toDate().time
 
     val minutesAgo = TimeUnit.MILLISECONDS.toMinutes(diff) % 60
+    val hoursAgo = TimeUnit.MILLISECONDS.toHours(diff)
+    if(hoursAgo > 0) {
+        return "$hoursAgo hr, $minutesAgo min ago"
+    }
     return "$minutesAgo min ago"
 }
 

@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StaffNavigationViewModel @Inject constructor(
-    private val loginService: LoginService,
     private val preferencesRepository: PreferencesRepository,
     private val restaurantRepository: RestaurantRepository
 ): ViewModel() {
@@ -49,7 +48,6 @@ class StaffNavigationViewModel @Inject constructor(
     }
 
     fun logout() = viewModelScope.launch {
-        loginService.signOut()
         preferencesRepository.clearId(DatastorePreferencesRepository.USER)
     }
 }

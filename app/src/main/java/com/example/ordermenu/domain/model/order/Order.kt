@@ -5,6 +5,7 @@ import java.util.UUID
 
 data class Order(
     val id: String = UUID.randomUUID().toString(),
+    val restaurantId: String = "",
     val items: MutableMap<Dish, Int> = mutableMapOf(),
     var totalitems: Int = 0,
     var totalPrice: Double = 0.0,
@@ -30,9 +31,6 @@ data class Order(
     fun clearOrder() {
         items.clear()
         totalPrice = 0.0
-    }
-    fun updateInstructions(instructions: String) {
-        additionalInstructions = instructions
     }
     private fun calculatePrice() {
         totalPrice = items.entries.sumOf { (dish, quantity) ->

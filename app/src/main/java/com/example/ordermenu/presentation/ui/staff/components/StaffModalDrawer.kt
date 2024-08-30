@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
@@ -16,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.ordermenu.presentation.ui.components.DrawerItem
+import com.example.ordermenu.presentation.ui.common.DrawerItem
 import com.example.ordermenu.presentation.ui.staff.StaffNavigationViewModel
 import com.example.ordermenu.presentation.ui.staff.StaffScreens
 
@@ -34,9 +35,9 @@ fun StaffModalDrawer(
         drawerContent = {
             ModalDrawerSheet {
                 Column (
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(16.dp)
                 ){
-                    Text("Order Menu (Staff)")
+                    Text("Order Menu", style = MaterialTheme.typography.titleMedium)
                     DrawerItem(
                         icon = Icons.Default.Edit,
                         title = "Edit Menu"

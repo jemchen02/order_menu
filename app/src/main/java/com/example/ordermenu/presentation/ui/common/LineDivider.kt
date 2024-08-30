@@ -1,4 +1,4 @@
-package com.example.ordermenu.presentation.ui.components
+package com.example.ordermenu.presentation.ui.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

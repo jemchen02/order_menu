@@ -21,13 +21,13 @@ fun DishEntry.toDish(): Resource<Dish> {
         val convertedPrice = price.toDouble()
         if(convertedPrice < 0) return Resource.Error("Price cannot be negative")
     } catch(e: Exception) {
-        return Resource.Error("Bad price formatting")
+        return Resource.Error("Enter a valid price amount")
     }
     try {
         val convertedCalories = calories.toInt()
         if(convertedCalories < 0) return Resource.Error("Calories cannot be negative")
     } catch(e: Exception) {
-        return Resource.Error("Bad calories formatting")
+        return Resource.Error("Enter a valid calories amount")
     }
     return try {
         Resource.Success(

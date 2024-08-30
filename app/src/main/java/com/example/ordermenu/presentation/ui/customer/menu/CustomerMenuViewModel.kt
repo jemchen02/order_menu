@@ -36,7 +36,10 @@ class CustomerMenuViewModel @Inject constructor(
                     if(restaurant != null) {
                         _menuState.update {
                             it.copy(
-                                restaurant = restaurant
+                                restaurant = restaurant,
+                                order = it.order.copy(
+                                    restaurantId = restaurant.id
+                                )
                             )
                         }
                         getAllCategories()
@@ -76,6 +79,16 @@ class CustomerMenuViewModel @Inject constructor(
         }
     }
 
+    fun updateInstructions(instructions: String) {
+        _menuState.update {
+            it.copy(
+                order = it.order.copy(
+                    additionalInstructions = instructions
+                )
+            )
+        }
+    }
+
     fun toggleOrder() {
         _menuState.update {
             it.copy(
@@ -88,7 +101,9 @@ class CustomerMenuViewModel @Inject constructor(
         orderRepository.addOrder(_menuState.value.order)
         _menuState.update {
             it.copy(
-                order = Order()
+                order = Order(
+                    restaurantId = _menuState.value.restaurant?.id ?: ""
+                )
             )
         }
         toggleOrder()

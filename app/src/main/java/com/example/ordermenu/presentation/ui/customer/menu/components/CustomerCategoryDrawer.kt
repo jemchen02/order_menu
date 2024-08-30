@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ordermenu.presentation.ui.components.DishGrid
+import com.example.ordermenu.presentation.ui.common.DishGrid
 import com.example.ordermenu.presentation.ui.customer.menu.CustomerMenuViewModel
 
 @Composable
@@ -42,7 +42,7 @@ fun CustomerCategoryDrawer(
                                 )
                             },
                             selected = menuState.category == it,
-                            onClick = {viewModel.selectCategory(it)},
+                            onClick = {viewModel.selectCategory(it)}
                         )
                     }
                 }

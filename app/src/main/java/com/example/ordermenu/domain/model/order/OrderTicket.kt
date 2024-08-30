@@ -5,6 +5,7 @@ import java.util.UUID
 
 data class OrderTicket(
     val id: String = UUID.randomUUID().toString(),
+    val restaurantId: String = "",
     val items: Map<String, Int> = emptyMap(),
     var totalPrice: Double = 0.0,
     var additionalInstructions: String = "",

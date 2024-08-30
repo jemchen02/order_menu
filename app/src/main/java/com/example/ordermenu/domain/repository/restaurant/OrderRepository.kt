@@ -5,7 +5,7 @@ import com.example.ordermenu.domain.model.order.OrderTicket
 import kotlinx.coroutines.flow.Flow
 
 interface OrderRepository {
-    fun getAllOrders(): Flow<List<OrderTicket>>
+    fun getAllOrdersByRestaurantId(restaurantId: String): Flow<List<OrderTicket>>
 
     suspend fun addOrder(order: Order)
 

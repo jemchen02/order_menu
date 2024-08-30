@@ -15,6 +15,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -22,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.ordermenu.domain.util.getPriceString
-import com.example.ordermenu.presentation.ui.components.LineDivider
+import com.example.ordermenu.presentation.ui.common.LineDivider
 import com.example.ordermenu.presentation.ui.customer.menu.CustomerMenuViewModel
 import java.text.NumberFormat
 import java.util.Locale
@@ -115,7 +117,15 @@ fun OrderForm(viewModel: CustomerMenuViewModel) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
-                LineDivider()
+                TextField(
+                    value = order.additionalInstructions,
+                    onValueChange = viewModel::updateInstructions,
+                    placeholder = {
+                        Text("Add additional instructions")
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(vertical = 12.dp)
+                )
                 Row (
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
