@@ -9,6 +9,7 @@ data class Order(
     val items: MutableMap<Dish, Int> = mutableMapOf(),
     var totalitems: Int = 0,
     var totalPrice: Double = 0.0,
+    var table: String = "",
     var additionalInstructions: String = ""
 ) {
     fun addDish(dish: Dish) {

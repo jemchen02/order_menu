@@ -16,6 +16,7 @@ import com.example.ordermenu.domain.repository.restaurant.ImageRepository
 import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
 import com.example.ordermenu.domain.service.LoginService
+import com.example.ordermenu.domain.service.ToastService
 import com.example.ordermenu.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +32,7 @@ class MenuViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val preferencesRepository: PreferencesRepository,
     private val restaurantRepository: RestaurantRepository,
+    private val toastService: ToastService
 ): ViewModel(){
     private val _menuState = MutableStateFlow(MenuState())
     val menuState = _menuState.asStateFlow()
@@ -137,6 +139,7 @@ class MenuViewModel @Inject constructor(
                 val downloadUrl = imageRepository.uploadImage(uri)
                 downloadUrl?.let {
                     updateField(DishFields.IMAGE_URL, it)
+                    toastService.showToast("Image uploaded")
                 }
             }
         }
@@ -169,6 +172,7 @@ class MenuViewModel @Inject constructor(
                         dish = DishEntry()
                     )
                 }
+                toastService.showToast("Dish: ${it.name} created")
             }
             else -> _menuState.update {
                 it.copy(
@@ -193,6 +197,7 @@ class MenuViewModel @Inject constructor(
         getDishesInCategory()
         toggleDeleteDishDialog()
         toggleDishDialog()
+        toastService.showToast("Dish: ${dish.name} deleted")
     }
 
     fun addCategory() = viewModelScope.launch {
@@ -214,6 +219,7 @@ class MenuViewModel @Inject constructor(
                 categoryRepository.addCategory(newCategory)
                 getAllCategories()
                 toggleCategoryDialog()
+                toastService.showToast("Category: ${it.name} created")
             }
             else -> _menuState.update {
                 it.copy(
@@ -256,6 +262,7 @@ class MenuViewModel @Inject constructor(
         category?.let {
             categoryRepository.deleteCategory(category.id)
             getAllCategories()
+            toastService.showToast("Category: ${category.name} deleted")
         }
         toggleDeleteCategoryDialog()
     }
@@ -266,6 +273,7 @@ class MenuViewModel @Inject constructor(
         )
         newRestaurant?.let {
             restaurantRepository.editRestaurant(newRestaurant)
+            toastService.showToast("Restaurant name changed to ${it.name}")
         }
         refreshRestaurant()
         toggleRestaurantDialog()

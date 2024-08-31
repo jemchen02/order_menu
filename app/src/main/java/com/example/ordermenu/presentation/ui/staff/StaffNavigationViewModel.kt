@@ -7,6 +7,7 @@ import com.example.ordermenu.domain.model.restaurant.Restaurant
 import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
 import com.example.ordermenu.domain.service.LoginService
+import com.example.ordermenu.domain.service.ToastService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class StaffNavigationViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
-    private val restaurantRepository: RestaurantRepository
+    private val restaurantRepository: RestaurantRepository,
+    private val toastService: ToastService
 ): ViewModel() {
     private val _navState = MutableStateFlow(StaffNavigationState())
     val navState = _navState.asStateFlow()
@@ -49,5 +51,6 @@ class StaffNavigationViewModel @Inject constructor(
 
     fun logout() = viewModelScope.launch {
         preferencesRepository.clearId(DatastorePreferencesRepository.USER)
+        toastService.showToast("Logged out")
     }
 }

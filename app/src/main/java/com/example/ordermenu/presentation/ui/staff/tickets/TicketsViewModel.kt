@@ -7,6 +7,7 @@ import com.example.ordermenu.domain.model.order.OrderTicket
 import com.example.ordermenu.domain.repository.restaurant.OrderRepository
 import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
+import com.example.ordermenu.domain.service.ToastService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class TicketsViewModel @Inject constructor(
     private val orderRepository: OrderRepository,
     private val preferencesRepository: PreferencesRepository,
-    private val restaurantRepository: RestaurantRepository
+    private val restaurantRepository: RestaurantRepository,
+    private val toastService: ToastService
 ): ViewModel() {
     private val _ticketsState = MutableStateFlow(TicketsState())
     val ticketsState = _ticketsState.asStateFlow()
@@ -59,14 +61,6 @@ class TicketsViewModel @Inject constructor(
         }
     }
 
-    fun toggleQrDialog() {
-        _ticketsState.update {
-            it.copy(
-                showQrDialog = !it.showQrDialog
-            )
-        }
-    }
-
     fun setTicket(ticket: OrderTicket) {
         _ticketsState.update {
             it.copy(
@@ -79,5 +73,6 @@ class TicketsViewModel @Inject constructor(
     fun deleteTicket(orderTicket: OrderTicket) = viewModelScope.launch{
         orderRepository.removeOrder(orderTicket.id)
         toggleDeleteDialog()
+        toastService.showToast("Ticket deleted")
     }
 }

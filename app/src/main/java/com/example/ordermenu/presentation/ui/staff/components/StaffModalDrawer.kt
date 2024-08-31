@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.ordermenu.presentation.ui.common.DrawerItem
+import com.example.ordermenu.presentation.ui.common.ItemTile
 import com.example.ordermenu.presentation.ui.staff.StaffNavigationViewModel
 import com.example.ordermenu.presentation.ui.staff.StaffScreens
 
@@ -38,21 +38,21 @@ fun StaffModalDrawer(
                     modifier = Modifier.padding(16.dp)
                 ){
                     Text("Order Menu", style = MaterialTheme.typography.titleMedium)
-                    DrawerItem(
+                    ItemTile(
                         icon = Icons.Default.Edit,
                         title = "Edit Menu"
                     ) {
                         navController.navigate(StaffScreens.Menu.name)
                         closeDrawer()
                     }
-                    DrawerItem(
+                    ItemTile(
                         icon = Icons.Default.Notifications,
                         title = "View Orders"
                     ) {
                         navController.navigate(StaffScreens.Tickets.name)
                         closeDrawer()
                     }
-                    DrawerItem(
+                    ItemTile(
                         icon = Icons.Default.Share,
                         title = "Share Restaurant QR"
                     ) {
@@ -61,7 +61,7 @@ fun StaffModalDrawer(
                     Spacer(
                         modifier = Modifier.weight(1f)
                     )
-                    DrawerItem(
+                    ItemTile(
                         icon = Icons.AutoMirrored.Filled.ExitToApp,
                         title = "Log Out"
                     ) {

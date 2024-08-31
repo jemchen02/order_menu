@@ -8,6 +8,7 @@ data class OrderTicket(
     val restaurantId: String = "",
     val items: Map<String, Int> = emptyMap(),
     var totalPrice: Double = 0.0,
+    var table: String = "",
     var additionalInstructions: String = "",
     var time: Timestamp = Timestamp.now()
 )

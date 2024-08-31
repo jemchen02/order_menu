@@ -22,6 +22,7 @@ fun OrderMenuAppBar(
     title: String = "Order Menu",
     onNameClick: () -> Unit = {},
     onNavigationClick: () -> Unit = {},
+    showNavigation: Boolean = true,
     actions: @Composable() (RowScope.() -> Unit) = {},
 ) {
     CenterAlignedTopAppBar(
@@ -38,13 +39,15 @@ fun OrderMenuAppBar(
         ),
         actions = actions,
         navigationIcon = {
-            IconButton(onClick = onNavigationClick) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "open navigation menu",
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.size(40.dp)
-                )
+            if(showNavigation) {
+                IconButton(onClick = onNavigationClick) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "open navigation menu",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             }
         }
     )

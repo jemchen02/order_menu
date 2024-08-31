@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ordermenu.presentation.ui.common.DrawerItem
+import com.example.ordermenu.presentation.ui.common.ItemTile
 import com.example.ordermenu.presentation.ui.customer.menu.CustomerMenuViewModel
 
 @Composable
@@ -32,14 +32,14 @@ fun CustomerModalDrawer(
                     modifier = Modifier.padding(16.dp)
                 ){
                     Text("Order Menu", style = MaterialTheme.typography.titleMedium)
-                    DrawerItem(
+                    ItemTile(
                         icon = Icons.Default.ShoppingCart,
                         title = "View Order"
                     ) {
                         viewModel.toggleOrder()
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    DrawerItem(
+                    ItemTile(
                         icon = Icons.AutoMirrored.Filled.ExitToApp,
                         title = "Exit Restaurant"
                     ) {

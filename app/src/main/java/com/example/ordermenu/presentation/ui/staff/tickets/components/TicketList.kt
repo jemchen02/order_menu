@@ -67,10 +67,23 @@ fun TicketItem(
         Column (
             modifier = Modifier.padding(8.dp)
         ){
-            Text(
-                text = minutesAgo,
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                var tableText = ""
+                if(ticket.table.isNotEmpty()) {
+                    tableText = "Table ${ticket.table}"
+                }
+                Text(
+                    text = tableText,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = minutesAgo,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
             LineDivider()
             ticket.items.entries.map {
                 TicketDetail(

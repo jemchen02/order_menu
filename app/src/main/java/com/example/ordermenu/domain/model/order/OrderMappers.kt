@@ -8,6 +8,7 @@ fun Order.toOrderTicket(): OrderTicket {
         restaurantId = restaurantId,
         items = items.mapKeys { (order, quantity) -> order.name },
         totalPrice = totalPrice,
+        table = table,
         additionalInstructions = additionalInstructions,
         time = Timestamp.now()
     )

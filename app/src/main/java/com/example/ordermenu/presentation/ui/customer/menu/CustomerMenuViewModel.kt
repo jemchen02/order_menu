@@ -11,6 +11,7 @@ import com.example.ordermenu.domain.repository.restaurant.CategoryRepository
 import com.example.ordermenu.domain.repository.restaurant.DishRepository
 import com.example.ordermenu.domain.repository.restaurant.OrderRepository
 import com.example.ordermenu.domain.repository.restaurant.RestaurantRepository
+import com.example.ordermenu.domain.service.ToastService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +26,7 @@ class CustomerMenuViewModel @Inject constructor(
     private val orderRepository: OrderRepository,
     private val preferencesRepository: PreferencesRepository,
     private val restaurantRepository: RestaurantRepository,
+    private val toastService: ToastService
 ) : ViewModel(){
     private val _menuState = MutableStateFlow(CustomerMenuState())
     val menuState = _menuState.asStateFlow()
@@ -67,6 +69,8 @@ class CustomerMenuViewModel @Inject constructor(
                 order = updatedOrder
             )
         }
+        toastService.showToast("Added ${dish.name} to order")
+
     }
 
     fun removeDish(dish: Dish) {
@@ -75,6 +79,17 @@ class CustomerMenuViewModel @Inject constructor(
             updatedOrder.removeDish(dish)
             it.copy(
                 order = updatedOrder
+            )
+        }
+        toastService.showToast("Removed ${dish.name} from order")
+    }
+
+    fun updateTable(table: String) {
+        _menuState.update {
+            it.copy(
+                order = it.order.copy(
+                    table = table
+                )
             )
         }
     }
@@ -107,10 +122,12 @@ class CustomerMenuViewModel @Inject constructor(
             )
         }
         toggleOrder()
+        toastService.showToast("Order sent")
     }
 
     fun exitRestaurant() = viewModelScope.launch {
         preferencesRepository.clearId(DatastorePreferencesRepository.RESTAURANT)
+        toastService.showToast("Exited restaurant")
     }
 
     private suspend fun getDishesInCategory() {

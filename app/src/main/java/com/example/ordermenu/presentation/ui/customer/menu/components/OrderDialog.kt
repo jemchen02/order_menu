@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.ordermenu.domain.util.getPriceString
@@ -118,13 +120,24 @@ fun OrderForm(viewModel: CustomerMenuViewModel) {
                     )
                 }
                 TextField(
+                    value = order.table,
+                    onValueChange = viewModel::updateTable,
+                    placeholder = {
+                        Text("Table Number", style = MaterialTheme.typography.labelLarge)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(vertical = 12.dp),
+                    textStyle = MaterialTheme.typography.labelLarge
+                )
+                TextField(
                     value = order.additionalInstructions,
                     onValueChange = viewModel::updateInstructions,
                     placeholder = {
-                        Text("Add additional instructions")
+                        Text("Add additional instructions", style = MaterialTheme.typography.labelLarge)
                     },
                     modifier = Modifier.fillMaxWidth()
-                        .padding(vertical = 12.dp)
+                        .padding(vertical = 12.dp),
+                    textStyle = MaterialTheme.typography.labelLarge
                 )
                 Row (
                     modifier = Modifier.fillMaxWidth(),

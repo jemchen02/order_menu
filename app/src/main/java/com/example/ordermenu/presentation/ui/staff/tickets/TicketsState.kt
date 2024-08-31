@@ -8,7 +8,6 @@ data class TicketsState(
     val currTicket: OrderTicket? = null,
 
     val showDeleteDialog: Boolean = false,
-    val showQrDialog: Boolean = false,
 
     val restaurant: Restaurant? = null
 )

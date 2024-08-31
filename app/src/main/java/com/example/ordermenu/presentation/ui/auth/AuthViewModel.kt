@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.ordermenu.data.network.repository.preferences.DatastorePreferencesRepository
 import com.example.ordermenu.domain.repository.preferences.PreferencesRepository
 import com.example.ordermenu.domain.service.LoginService
+import com.example.ordermenu.domain.service.ToastService
 import com.example.ordermenu.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val loginService: LoginService,
     private val preferencesRepository: PreferencesRepository,
+    private val toastService: ToastService
 ): ViewModel() {
     fun getUserId(): Flow<String?> = preferencesRepository.getId(
         DatastorePreferencesRepository.USER)
@@ -23,9 +25,7 @@ class AuthViewModel @Inject constructor(
         DatastorePreferencesRepository.RESTAURANT
     )
 
-    fun signIn(
-        onError: (String) -> Unit
-    ) = viewModelScope.launch {
+    fun signIn() = viewModelScope.launch {
         when(val loginResult = loginService.signIn()) {
             is Resource.Success -> {
                 val userId = loginResult.data?.uid
@@ -33,7 +33,7 @@ class AuthViewModel @Inject constructor(
                     preferencesRepository.saveId(userId, DatastorePreferencesRepository.USER)
                 }
             }
-            is Resource.Error -> onError(loginResult.message ?: "Error signing in")
+            is Resource.Error -> toastService.showToast(loginResult.message ?: "Error signing in")
         }
     }
 

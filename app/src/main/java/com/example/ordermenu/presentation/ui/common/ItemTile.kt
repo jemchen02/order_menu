@@ -14,10 +14,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DrawerItem(
+fun ItemTile(
     icon: ImageVector,
     title: String,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     Row (
         modifier = Modifier

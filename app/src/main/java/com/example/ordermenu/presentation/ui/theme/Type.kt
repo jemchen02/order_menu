@@ -45,8 +45,12 @@ val Typography = Typography(
     bodySmall = DefaultTextStyle.copy(
         fontSize = 20.sp
     ),
-    labelLarge = DefaultTextStyle.copy(),
-    labelMedium = DefaultTextStyle.copy(),
+    labelLarge = DefaultTextStyle.copy(
+        fontSize = 16.sp
+    ),
+    labelMedium = DefaultTextStyle.copy(
+        fontSize = 14.sp
+    ),
     labelSmall = DefaultTextStyle.copy(
         fontSize = 12.sp
     )

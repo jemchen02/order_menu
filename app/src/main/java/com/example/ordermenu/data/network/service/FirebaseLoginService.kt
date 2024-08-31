@@ -3,6 +3,7 @@ package com.example.ordermenu.data.network.service
 import android.content.Context
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import com.example.ordermenu.domain.service.LoginService
 import com.example.ordermenu.domain.util.Resource
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -33,8 +34,10 @@ class FirebaseLoginService @Inject constructor(
             } else {
                 Resource.Error("Authenticated user is null")
             }
-        } catch(e: Exception) {
-            Resource.Error(e.toString())
+        } catch(e: GetCredentialCancellationException) {
+            Resource.Error("Login cancelled")
+        }  catch(e: Exception) {
+            Resource.Error("Error logging in")
         }
     }
 

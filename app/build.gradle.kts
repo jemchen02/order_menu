@@ -83,8 +83,10 @@ dependencies {
     //local
     implementation(libs.androidx.datastore.preferences)
 
-    implementation(libs.coil.compose)
+    //icons
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
 
+    implementation(libs.coil.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
