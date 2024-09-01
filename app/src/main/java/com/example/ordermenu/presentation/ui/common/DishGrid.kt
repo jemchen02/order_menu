@@ -75,7 +75,7 @@ fun DishCard(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1.3f)
+                    .aspectRatio(1.1f)
                     .padding(4.dp)
             )
             Text(
@@ -96,11 +96,13 @@ fun DishCard(
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
-            Text(
-                text = "Contains ${dish.allergens}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onErrorContainer
-            )
+            if(dish.allergens.isNotEmpty()) {
+                Text(
+                    text = "Contains ${dish.allergens}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onErrorContainer
+                )
+            }
         }
     }
 }

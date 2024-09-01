@@ -32,6 +32,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.ordermenu.presentation.ClientActivity
 import com.example.ordermenu.presentation.StaffActivity
@@ -65,7 +66,7 @@ fun AuthPage(viewModel: AuthViewModel, scanCode: () -> Unit) {
                 viewModel = viewModel,
                 modifier = Modifier.weight(1f)
             )
-            VerticalDivider(thickness = 4.dp)
+            VerticalDivider(thickness = 8.dp)
             CustomerSection(
                 scanCode = scanCode,
                 modifier = Modifier.weight(1f)
@@ -88,6 +89,7 @@ fun StaffSection(
         Text(
             text = "Restaurant Staff",
             style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 20.dp)
         )
         Column {
@@ -97,7 +99,7 @@ fun StaffSection(
             )
             ItemTile(
                 icon = Icons.Default.Notifications,
-                title = "Take orders from customers, sorted by time"
+                title = "Take orders from customers"
             )
             ItemTile(
                 icon = Icons.Default.Share,
@@ -125,6 +127,7 @@ fun CustomerSection(scanCode: () -> Unit, modifier: Modifier) {
         Text(
             text = "Customer",
             style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 20.dp)
         )
         Column {
@@ -138,7 +141,7 @@ fun CustomerSection(scanCode: () -> Unit, modifier: Modifier) {
             )
             ItemTile(
                 icon = Icons.Filled.Preview,
-                title = "View an order preview with total price calculated"
+                title = "View an order preview with total price"
             )
         }
         Spacer(modifier = Modifier.height(40.dp))

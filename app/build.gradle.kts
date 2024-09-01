@@ -54,13 +54,13 @@ android {
 
 dependencies {
     //qr codes
-    implementation("com.lightspark:compose-qr-code:1.0.1")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
-    implementation("com.google.zxing:core:3.5.1")
+    implementation(libs.compose.qr.code)
+    implementation(libs.zxing.android.embedded)
+    implementation(libs.core)
 
     //authentication
-    implementation(libs.play.services.auth)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.play.services.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
@@ -70,21 +70,18 @@ dependencies {
     implementation(libs.firebase.storage)
 
     //navigation
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.navigation.compose)
 
     //dependency injection
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    kapt("com.google.dagger:hilt-compiler:2.51.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     //local
     implementation(libs.androidx.datastore.preferences)
 
     //icons
-    implementation("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.coil.compose)
     implementation(libs.androidx.core.ktx)
@@ -102,4 +99,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
 }
