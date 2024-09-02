@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirestoreDishRepository @Inject constructor(
+class FirebaseDishRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : DishRepository {
     private val collectionRef = firestore.collection("dishes")
@@ -44,26 +44,6 @@ class FirestoreDishRepository @Inject constructor(
     }
 
     override suspend fun addDish(dish: Dish) {
-        try {
-            val existingDishResult = collectionRef
-                .whereEqualTo("name", dish.name)
-                .get()
-                .await()
-
-            if (existingDishResult.isEmpty) {
-                collectionRef.document(dish.id).set(dish).await()
-            }
-            val updateDish = existingDishResult.documents[0]
-            if(updateDish.id == dish.id) {
-                collectionRef.document(dish.id).set(dish).await()
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    override suspend fun updateDish(dish: Dish) {
         try {
             collectionRef.document(dish.id).set(dish).await()
         } catch (e: Exception) {

@@ -5,7 +5,7 @@ import com.example.ordermenu.domain.repository.restaurant.ImageRepository
 import com.example.ordermenu.data.network.repository.restaurant.FirebaseImageRepository
 import com.example.ordermenu.data.network.repository.restaurant.FirebaseOrderRepository
 import com.example.ordermenu.data.network.repository.restaurant.FirebaseRestaurantRepository
-import com.example.ordermenu.data.network.repository.restaurant.FirestoreDishRepository
+import com.example.ordermenu.data.network.repository.restaurant.FirebaseDishRepository
 import com.example.ordermenu.domain.repository.restaurant.CategoryRepository
 import com.example.ordermenu.domain.repository.restaurant.DishRepository
 import com.example.ordermenu.domain.repository.restaurant.OrderRepository
@@ -33,7 +33,7 @@ object AppModule {
     @Provides
     fun provideDishRepository(
         firestore: FirebaseFirestore
-    ): DishRepository = FirestoreDishRepository(firestore)
+    ): DishRepository = FirebaseDishRepository(firestore)
 
     @Singleton
     @Provides

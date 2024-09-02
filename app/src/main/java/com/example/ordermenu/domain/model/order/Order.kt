@@ -29,10 +29,6 @@ data class Order(
         }
         calculatePrice()
     }
-    fun clearOrder() {
-        items.clear()
-        totalPrice = 0.0
-    }
     private fun calculatePrice() {
         totalPrice = items.entries.sumOf { (dish, quantity) ->
             dish.price * quantity

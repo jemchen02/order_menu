@@ -33,15 +33,15 @@ The app is designed for use by restaurants that provide a device for customers t
 <img src="screenshots/customer_order_dialog.png" alt="favorites screens"/>
 
 ## Technologies used
-- Languages: Kotlin
-- UI: Jetpack Compose
-- Authentication: Firebase Authentication with Google Credential Manager
-- Database: Firebase Cloud Firestore
-- Dependency Injection: Dagger Hilt
-- Async: Flow, Coroutines
-- Local storage: Preferences Datastore
-- QR Code: ZXing, Compose QR Code
-- Architecture: MVVM
+- **Languages:** Kotlin
+- **UI:** Jetpack Compose
+- **Authentication:** Firebase Authentication with Google Credential Manager
+- **Database:** Firebase Cloud Firestore
+- **Dependency Injection:** Dagger Hilt
+- **Async:** Flow, Coroutines
+- **Local storage:** Preferences Datastore
+- **QR Code:** ZXing, Compose QR Code
+- **Architecture:** MVVM
 
 ## Contact
 - **Email:** jemchen83@gmail.com

@@ -11,7 +11,5 @@ interface DishRepository {
 
     suspend fun addDish(dish: Dish)
 
-    suspend fun updateDish(dish: Dish)
-
     suspend fun deleteDish(id: String)
 }

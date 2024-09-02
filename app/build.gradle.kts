@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("de.mannodermaus.android-junit5") version "1.9.3.0"
 }
 
 android {
@@ -82,6 +83,15 @@ dependencies {
 
     //icons
     implementation(libs.androidx.material.icons.extended)
+
+    //unit testing
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.3")
+    testImplementation("com.willowtreeapps.assertk:assertk:0.26.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("app.cash.turbine:turbine:0.7.0")
+    testImplementation("io.mockk:mockk:1.12.5")
 
     implementation(libs.coil.compose)
     implementation(libs.androidx.core.ktx)
