@@ -3,9 +3,11 @@ package com.example.ordermenu.di
 import android.content.Context
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetPasswordOption
 import com.example.ordermenu.R
 import com.example.ordermenu.data.network.service.FirebaseLoginService
 import com.example.ordermenu.domain.service.LoginService
+import com.example.ordermenu.domain.service.ToastService
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -32,8 +34,10 @@ object AuthModule {
             .setFilterByAuthorizedAccounts(false)
             .setServerClientId(context.getString(R.string.web_client_id))
             .build()
+        val passwordOption = GetPasswordOption()
         return GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
+            .addCredentialOption(passwordOption)
             .build()
     }
 
@@ -49,6 +53,7 @@ object AuthModule {
         auth: FirebaseAuth,
         @ApplicationContext context: Context,
         request: GetCredentialRequest,
-        credentialManager: CredentialManager
-    ): LoginService = FirebaseLoginService(auth, context, request, credentialManager)
+        credentialManager: CredentialManager,
+        toastService: ToastService
+    ): LoginService = FirebaseLoginService(auth, context, request, credentialManager, toastService)
 }

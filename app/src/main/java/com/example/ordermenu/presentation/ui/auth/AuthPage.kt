@@ -1,8 +1,6 @@
 package com.example.ordermenu.presentation.ui.auth
 
-import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,18 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Calculate
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.GMobiledata
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Preview
 import androidx.compose.material.icons.filled.QrCodeScanner
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.ordermenu.presentation.ClientActivity
 import com.example.ordermenu.presentation.StaffActivity
+import com.example.ordermenu.presentation.ui.auth.components.LoginDialog
+import com.example.ordermenu.presentation.ui.auth.components.SignUpDialog
 import com.example.ordermenu.presentation.ui.common.ItemTile
 import com.example.ordermenu.presentation.ui.common.OrderMenuAppBar
 
@@ -79,6 +74,7 @@ fun StaffSection(
     viewModel: AuthViewModel,
     modifier: Modifier
 ) {
+    val authState = viewModel.authState.collectAsState().value
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -108,11 +104,23 @@ fun StaffSection(
         }
         Spacer(modifier = Modifier.height(40.dp))
         Button(onClick = {
-            viewModel.signIn()
+            viewModel.toggleDialog(DialogType.LOGIN)
         }) {
-            Text("Login with Google")
+            Text("Log In")
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Button(onClick = {
+            viewModel.toggleDialog(DialogType.SIGNUP)
+        }) {
+            Text("Sign Up")
         }
         Spacer(modifier = Modifier.height(40.dp))
+    }
+    if(authState.showSignUpDialog) {
+        SignUpDialog(viewModel = viewModel)
+    }
+    if(authState.showLoginDialog) {
+        LoginDialog(viewModel = viewModel)
     }
 }
 @Composable
