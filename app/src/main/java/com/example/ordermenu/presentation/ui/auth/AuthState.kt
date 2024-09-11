@@ -5,11 +5,12 @@ data class AuthState(
     val password: String = "",
 
     val showSignUpDialog: Boolean = false,
-    val showLoginDialog: Boolean = false
+    val showLoginDialog: Boolean = false,
+    val showResetPasswordDialog: Boolean = false
 )
 enum class AuthFieldType {
     EMAIL, PASSWORD
 }
 enum class DialogType {
-    SIGNUP, LOGIN
+    SIGNUP, LOGIN, RESET_PASSWORD
 }

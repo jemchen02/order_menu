@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var viewModel: AuthViewModel
     private val barCodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            Toast.makeText(this, "Canceled", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Canceled scan", Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(this, "QR Code found", Toast.LENGTH_LONG).show()
             viewModel.setRestaurantId(result.contents)

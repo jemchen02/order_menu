@@ -9,12 +9,14 @@ import com.example.ordermenu.domain.service.ToastService
 import com.example.ordermenu.domain.util.Resource
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -24,6 +26,7 @@ class AuthViewModel @Inject constructor(
 ): ViewModel() {
     private val _authState = MutableStateFlow(AuthState())
     val authState = _authState.asStateFlow()
+
     fun getUserId(): Flow<String?> = preferencesRepository.getId(
         DatastorePreferencesRepository.USER)
 
@@ -43,7 +46,6 @@ class AuthViewModel @Inject constructor(
             _authState.value.email,
             _authState.value.password
         )
-        clearFields()
         toggleDialog(DialogType.SIGNUP)
     }
     fun signInCredential() = viewModelScope.launch {
@@ -55,6 +57,12 @@ class AuthViewModel @Inject constructor(
             _authState.value.email,
             _authState.value.password
         )
+        if(loginResult is Resource.Success) {
+            loginService.savePassword(
+                _authState.value.email,
+                _authState.value.password
+            )
+        }
         saveUser(loginResult)
     }
     private suspend fun saveUser(userResource: Resource<FirebaseUser>) {
@@ -64,10 +72,10 @@ class AuthViewModel @Inject constructor(
                 userId?.let {
                     preferencesRepository.saveId(userId, DatastorePreferencesRepository.USER)
                 }
+                toggleDialog(DialogType.LOGIN)
             }
             is Resource.Error -> toastService.showToast(userResource.message ?: "Error signing in")
         }
-        toggleDialog(DialogType.LOGIN)
     }
 
     fun setRestaurantId(restaurantId: String) = viewModelScope.launch {
@@ -77,9 +85,18 @@ class AuthViewModel @Inject constructor(
         _authState.update {
             when(type) {
                 DialogType.SIGNUP -> it.copy(showSignUpDialog = !it.showSignUpDialog)
-                DialogType.LOGIN -> it.copy(showLoginDialog = !it.showLoginDialog)
+                DialogType.LOGIN -> {
+                    if(!it.showLoginDialog) signInCredential()
+                    it.copy(showLoginDialog = !it.showLoginDialog)
+                }
+                DialogType.RESET_PASSWORD -> it.copy(showResetPasswordDialog = !it.showResetPasswordDialog)
             }
         }
+        clearFields()
+    }
+    fun resetPassword() = viewModelScope.launch {
+        loginService.resetPassword(_authState.value.email)
+        toggleDialog(DialogType.RESET_PASSWORD)
     }
     private fun clearFields() {
         _authState.update {

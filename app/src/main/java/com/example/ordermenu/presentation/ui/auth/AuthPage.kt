@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.ordermenu.presentation.ClientActivity
 import com.example.ordermenu.presentation.StaffActivity
 import com.example.ordermenu.presentation.ui.auth.components.LoginDialog
+import com.example.ordermenu.presentation.ui.auth.components.ResetPasswordDialog
 import com.example.ordermenu.presentation.ui.auth.components.SignUpDialog
 import com.example.ordermenu.presentation.ui.common.ItemTile
 import com.example.ordermenu.presentation.ui.common.OrderMenuAppBar
@@ -121,6 +122,9 @@ fun StaffSection(
     }
     if(authState.showLoginDialog) {
         LoginDialog(viewModel = viewModel)
+    }
+    if(authState.showResetPasswordDialog) {
+        ResetPasswordDialog(viewModel = viewModel)
     }
 }
 @Composable
