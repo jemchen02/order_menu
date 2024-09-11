@@ -18,6 +18,12 @@ The app is designed for use by restaurants that provide a device for customers t
 - Build and edit a cart of dishes to order, keeping track of the total price
 - Add custom instructions before sending the order
 
+## Videos
+
+https://github.com/user-attachments/assets/dad1faa1-4157-4bf0-9ba0-f1812310ec31
+
+https://github.com/user-attachments/assets/e26065d6-f5d7-45b6-9429-0e8869e0bf90
+
 ## Screenshots
 
 ### Restaurant Staff
